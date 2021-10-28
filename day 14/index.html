@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Функция pow(x,n)</title>
+</head>
+<body>
+  <script src="./main.js"></script>
+  <script>
+    let x = prompt('Введите число, которое Вы хотите возвести в степень', '');
+    let n = prompt('Введите степень', '');
+
+    if (n < 1) {
+      alert(`Степень должна быть натуральным числом. Вы ввели: ${n}`);
+    } else {
+      alert(`Число ${x} в степени ${n}: ` + pow(x, n));
+    }
+  </script>
+</body>
+</html>
