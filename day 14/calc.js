@@ -3,13 +3,9 @@ function Calc(action, a, b) {
     return 'Error';
   }
 
-  /*
-  Поскольку NaN-это единственное значение JavaScript, которое рассматривается как неравное самому себе,
-  вы всегда можете проверить, является ли значение NaN, проверив его на равенство самому себе
-  */
   a = Number(a);
   b = Number(b);
-  if (!(typeof a === 'number' && a !== a && typeof b === 'number' && b !== b)) {
+  if (!(typeof a === 'number' && !isNaN(a) && typeof b === 'number' && !isNaN(b))) {
     return 'Error';
   }
 
