@@ -1,35 +1,23 @@
-function calc(operation, operand1, operand2) {
-  function isValidOperand(operand) {
-    return operand !== undefined && typeof(operand) === 'number' && !isNaN(operand);
-  }
-
+function calc(operator, operand1, operand2) {
   let result = '';
   operand1 = Number(operand1);
   operand2 = Number(operand2);
 
+  function isValidOperand(operand) {
+    return operand !== undefined && typeof(operand) === 'number' && !isNaN(operand);
+  }
+
   if (isValidOperand(operand1) && isValidOperand(operand2)) {
-    switch (operation) {
-      case 'add':
-        result = operand1 + operand2;
-        break;
-      case 'sub':
-        result = operand1 - operand2;
-        break;
-      case 'mul':
-        result = operand1 * operand2;
-        break;
-      case 'div':
-        result = (operand2 === 0 ? 'Error: division by zero' : operand1 / operand2);
-        break;
-      case 'mod':
-        result = (operand2 === 0 ? 'Error: division by zero' : operand1 % operand2);
-        break;
-      case 'pow':
-        result = operand1 ** operand2;
-        break;
-      default:
-        result = 'Error: unknown operation';
-    }
+    const operators = {
+      'add': operand1 + operand2,
+      'sub': operand1 - operand2,
+      'mult': operand1 * operand2,
+      'div': (operand2 === 0 ? 'Error: division by zero' : operand1 / operand2),
+      'mod': (operand2 === 0 ? 'Error: division by zero' : operand1 % operand2),
+      'pow': operand1 ** operand2,
+    };
+    
+    result = operators[operator] !== undefined ? operators[operator] : 'Error: unknown operator';
   } else {
     result = 'Error: not valid operand';
   }
@@ -37,14 +25,14 @@ function calc(operation, operand1, operand2) {
   return result;
 }
 
-console.log('Test 0: 0 * 50:', calc('mul', 0, 50));
+console.log('Test 0: 0 * 50:', calc('mult', 0, 50));
 console.log('Test 1: 30 + 10:', calc('add', 30, 10));
 console.log('Test 2: 30 - 10:', calc('sub', 30, 10));
-console.log('Test 3: 30 * 10:', calc('mul', 30, 10));
+console.log('Test 3: 30 * 10:', calc('mult', 30, 10));
 console.log('Test 4: 30 / 10:', calc('div', 30, 10));
 console.log('Test 5: 30 % 20:', calc('mod', 30, 20));
 console.log('Test 6: 2 ** 5:', calc('pow', 2, 5));
-console.log('Test 7: is unknown operation?:', calc('unk', 2, 5));
+console.log('Test 7: is unknown operator?:', calc('unk', 2, 5));
 console.log('Test 8: 10 / 0:', calc('div', 10, 0));
 console.log('Test 9: 10 % 0:', calc('mod', 10, 0));
 console.log('Test 10: operand2 - undefined:', calc('add', 10));
