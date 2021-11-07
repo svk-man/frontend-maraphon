@@ -14,7 +14,7 @@ function changeStatus(name, status) {
 }
 
 function addTask(name) {
-  if (list[name] === undefined) {
+  if (list[name] === undefined && name) {
     list[name] = 'To Do';
     return true;
   }
@@ -68,6 +68,7 @@ console.log(deleteTask('have a walk1'));
 console.log();*/
 addTask('go to work');
 addTask('come home');
+addTask();
 changeStatus('write a post', 'Done');
 changeStatus('go to work', 'In Progress');
 changeStatus('have a walk', 'Done');
