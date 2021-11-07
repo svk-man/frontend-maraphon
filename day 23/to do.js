@@ -17,7 +17,7 @@ function changeStatus(name, status) {
 }
 
 function addTask(name) {
-  if (list[name] === undefined && name) {
+  if (!(name in list) && name) {
     list[name] = STATUS_TO_DO;
     return true;
   }
@@ -26,7 +26,7 @@ function addTask(name) {
 }
 
 function deleteTask(name) {
-  if (list[name] !== undefined) {
+  if (name in list) {
     delete list[name];
     return true;
   }
