@@ -18,7 +18,7 @@ function changeStatus(name, status) {
 }
 
 function addTask(name) {
-  if (!isNameInList(name) && name) {
+  if (name && !isNameInList(name)) {
     list[name] = STATUS_TO_DO;
     return true;
   }
