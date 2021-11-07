@@ -8,7 +8,7 @@ const list = {
 }
 
 function changeStatus(name, status) {
-  if (nameInList(name) && (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO)) {
+  if (isNameInList(name) && (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO)) {
     list[name] = status;
     return true;
   }
@@ -17,7 +17,7 @@ function changeStatus(name, status) {
 }
 
 function addTask(name) {
-  if (!nameInList(name) && name) {
+  if (!isNameInList(name) && name) {
     list[name] = STATUS_TO_DO;
     return true;
   }
@@ -26,7 +26,7 @@ function addTask(name) {
 }
 
 function deleteTask(name) {
-  if (nameInList(name)) {
+  if (isNameInList(name)) {
     delete list[name];
     return true;
   }
@@ -65,7 +65,7 @@ function showList() {
   console.log(tasks);
 }
 
-function nameInList(name) {
+function isNameInList(name) {
   return name in list;
 }
 
