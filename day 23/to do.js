@@ -35,7 +35,7 @@ function deleteTask(name) {
 }
 
 function showList() {
-  let message = '';
+  let tasks = '';
   let toDoTasks = '';
   let inProgressTasks = '';
   let doneTasks = '';
@@ -55,14 +55,14 @@ function showList() {
     }
   }
 
-  message += `${STATUS_TO_DO}:\n`;
-  message += toDoTasks ? toDoTasks : isNotFoundTasks;
-  message += `${STATUS_IN_PROGRESS}:\n`;
-  message += inProgressTasks ? inProgressTasks : isNotFoundTasks;
-  message += `${STATUS_DONE}:\n`;
-  message += doneTasks ? doneTasks : isNotFoundTasks;
+  tasks += `${STATUS_TO_DO}:\n`;
+  tasks += toDoTasks ? toDoTasks : isNotFoundTasks;
+  tasks += `${STATUS_IN_PROGRESS}:\n`;
+  tasks += inProgressTasks ? inProgressTasks : isNotFoundTasks;
+  tasks += `${STATUS_DONE}:\n`;
+  tasks += doneTasks ? doneTasks : isNotFoundTasks;
 
-  console.log(message);
+  console.log(tasks);
 }
 
 addTask('have a walk');
