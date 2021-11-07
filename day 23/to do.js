@@ -11,28 +11,19 @@ function changeStatus(name, status) {
   const isValidStatus = (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO);
   if (isNameInList(name) && isValidStatus) {
     list[name] = status;
-    return true;
   }
-
-  return false;
 }
 
 function addTask(name) {
   if (name && !isNameInList(name)) {
     list[name] = STATUS_TO_DO;
-    return true;
   }
-
-  return false;
 }
 
 function deleteTask(name) {
   if (isNameInList(name)) {
     delete list[name];
-    return true;
   }
-
-  return false;
 }
 
 function showList() {
