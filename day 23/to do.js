@@ -8,7 +8,8 @@ const list = {
 }
 
 function changeStatus(name, status) {
-  if (isNameInList(name) && (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO)) {
+  const isValidStatus = (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO);
+  if (isNameInList(name) && isValidStatus) {
     list[name] = status;
     return true;
   }
