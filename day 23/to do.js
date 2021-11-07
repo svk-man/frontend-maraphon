@@ -39,6 +39,7 @@ function showList() {
   let toDoTasks = '';
   let inProgressTasks = '';
   let doneTasks = '';
+  let isNotFoundTasks = ' -\n';
 
   for (let task in list) {
     switch (list[task]) {
@@ -55,11 +56,11 @@ function showList() {
   }
 
   message += `${STATUS_TO_DO}:\n`;
-  message += toDoTasks ? toDoTasks : ' -\n';
+  message += toDoTasks ? toDoTasks : isNotFoundTasks;
   message += `${STATUS_IN_PROGRESS}:\n`;
-  message += inProgressTasks ? inProgressTasks : ' -\n';
+  message += inProgressTasks ? inProgressTasks : isNotFoundTasks;
   message += `${STATUS_DONE}:\n`;
-  message += doneTasks ? doneTasks : ' -\n';
+  message += doneTasks ? doneTasks : isNotFoundTasks;
 
   console.log(message);
 }
