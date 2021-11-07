@@ -1,11 +1,14 @@
+const STATUS_IN_PROGRESS = 'In Progress';
+const STATUS_DONE = 'Done';
+const STATUS_TO_DO = 'To Do';
 const list = {
-  'create a task': 'In Progress',
-  'make a bed': 'Done',
-  'write a post': 'To Do',
+  'create a task': STATUS_IN_PROGRESS,
+  'make a bed': STATUS_DONE,
+  'write a post': STATUS_TO_DO,
 }
 
 function changeStatus(name, status) {
-  if (status === 'In Progress' || status === 'Done' || status === 'To Do') {
+  if (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO) {
     list[name] = status;
     return true;
   }
@@ -15,7 +18,7 @@ function changeStatus(name, status) {
 
 function addTask(name) {
   if (list[name] === undefined && name) {
-    list[name] = 'To Do';
+    list[name] = STATUS_TO_DO;
     return true;
   }
 
@@ -39,39 +42,39 @@ function showList() {
 
   for (let task in list) {
     switch (list[task]) {
-      case 'To Do':
+      case STATUS_TO_DO:
         toDoTasks += ` "${task}"\n`;
         break;
-      case 'In Progress':
+      case STATUS_IN_PROGRESS:
         inProgressTasks += ` "${task}"\n`;
         break;
-      case 'Done':
+      case STATUS_DONE:
         doneTasks += ` "${task}"\n`;
         break;
     }
   }
 
-  message += 'Todo:\n';
+  message += `${STATUS_TO_DO}:\n`;
   message += toDoTasks ? toDoTasks : ' -\n';
-  message += 'In Progress:\n';
+  message += `${STATUS_IN_PROGRESS}:\n`;
   message += inProgressTasks ? inProgressTasks : ' -\n';
-  message += 'Done:\n';
+  message += `${STATUS_DONE}:\n`;
   message += doneTasks ? doneTasks : ' -\n';
 
   console.log(message);
 }
 
 addTask('have a walk');
-/*console.log(changeStatus('have a walk', 'status'));
+/*console.log(changeStatus('have a walk', 'unknown status'));
 console.log(addTask('have a walk'));
 console.log(deleteTask('have a walk1'));
+console.log(addTask());
 console.log();*/
 addTask('go to work');
 addTask('come home');
-addTask();
-changeStatus('write a post', 'Done');
-changeStatus('go to work', 'In Progress');
-changeStatus('have a walk', 'Done');
+changeStatus('write a post', STATUS_DONE);
+changeStatus('go to work', STATUS_IN_PROGRESS);
+changeStatus('have a walk', STATUS_DONE);
 deleteTask('make a bed');
 deleteTask('come home');
 showList();
