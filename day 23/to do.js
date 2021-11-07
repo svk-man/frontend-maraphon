@@ -7,6 +7,10 @@ const list = {
   'write a post': STATUS_TO_DO,
 }
 
+function isNameInList(name) {
+  return name in list;
+}
+
 function changeStatus(name, status) {
   const isValidStatus = (status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO);
   if (isNameInList(name) && isValidStatus) {
@@ -57,16 +61,7 @@ function showList() {
   console.log(tasks);
 }
 
-function isNameInList(name) {
-  return name in list;
-}
-
 addTask('have a walk');
-/*console.log(changeStatus('have a walk', 'unknown status'));
-console.log(addTask('have a walk'));
-console.log(deleteTask('have a walk1'));
-console.log(addTask());
-console.log();*/
 addTask('go to work');
 addTask('come home');
 changeStatus('write a post', STATUS_DONE);
