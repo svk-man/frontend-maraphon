@@ -1,6 +1,7 @@
 const STATUS_TO_DO = 'To Do';
 const STATUS_IN_PROGRESS = 'In Progress';
 const STATUS_DONE = 'Done';
+
 const PRIORITY_LOW = 'low';
 const PRIORITY_HIGH = 'high';
 
@@ -23,7 +24,7 @@ const tasks = [
     status: STATUS_TO_DO,
     priority: PRIORITY_LOW
   }
-]
+];
 
 function isNameInTasks(name) {
   return tasks.find(item => item.name === name);
