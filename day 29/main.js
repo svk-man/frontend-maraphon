@@ -111,3 +111,69 @@ let sorted = copySorted(arr);
 console.log(sorted); // CSS, HTML, JavaScript
 console.log(arr); // HTML, JavaScript, CSS (без изменений)
 console.log();
+
+/*
+Создайте функцию конструктор Calculator, которая создаёт «расширяемые» объекты калькулятора.
+
+Задание состоит из двух частей.
+
+Во-первых, реализуйте метод calculate(str), который принимает строку типа "1 + 2" в формате «ЧИСЛО оператор ЧИСЛО» (разделено пробелами) и возвращает результат. Метод должен понимать плюс + и минус -.
+
+Пример использования:
+
+let calc = new Calculator;
+
+alert( calc.calculate("3 + 7") ); // 10
+Затем добавьте метод addMethod(name, func), который добавляет в калькулятор новые операции. Он принимает оператор name и функцию с двумя аргументами func(a,b), которая описывает его.
+
+Например, давайте добавим умножение *, деление / и возведение в степень **:
+
+let powerCalc = new Calculator;
+powerCalc.addMethod("*", (a, b) => a * b);
+powerCalc.addMethod("/", (a, b) => a / b);
+powerCalc.addMethod("**", (a, b) => a ** b);
+
+let result = powerCalc.calculate("2 ** 3");
+alert( result ); // 8
+Для этой задачи не нужны скобки или сложные выражения.
+Числа и оператор разделены ровно одним пробелом.
+Не лишним будет добавить обработку ошибок.
+*/
+class Calculator {
+  operations = {};
+
+  constructor() {
+    this.operations['+'] = (a, b) => a + b;
+    this.operations['-'] = (a, b) => a - b;
+  }
+
+  calculate(str) {
+    const strArr = str.split(' ');
+
+    const firstOperand = +strArr[0];
+    const operation = strArr[1];
+    const secondOperand = +strArr[2];
+
+    const isValidExpression = this.operations[operation] && isFinite(firstOperand) && isFinite(secondOperand);
+    if (!isValidExpression) {
+      return NaN;
+    }
+
+    return this.operations[operation](firstOperand, secondOperand);
+  }
+
+  addMethod(name, func) {
+    this.operations[name] = func;
+  }
+}
+
+let powerCalc = new Calculator;
+console.log(powerCalc.calculate("3 + 7"));
+
+powerCalc.addMethod("*", (a, b) => a * b);
+powerCalc.addMethod("/", (a, b) => a / b);
+powerCalc.addMethod("**", (a, b) => a ** b);
+
+let result = powerCalc.calculate("2 ** 3");
+console.log(result); // 8
+console.log();
