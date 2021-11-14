@@ -1,18 +1,17 @@
-function showVerticalMessage(str) {
-  const tmpStr = truncate(ucFirst(str), 10);
+function toUpperCaseFirstLetter(str) {
+  return str.length ? str[0].toUpperCase() + str.slice(1) : '';
+}
 
-  for (const char of tmpStr) {
+function truncate(str, maxlength = 10) {
+  return str.slice(0, maxlength) + (str.length > maxlength ? '…' : '');
+}
+
+function showVerticalMessage(str) {
+  const changedStr = truncate(toUpperCaseFirstLetter(str));
+
+  for (const char of changedStr) {
     console.log(char);
   }
-}
-
-function ucFirst(str) {
-  return str.length ? str[0].toUpperCase() + str.slice(1).toLowerCase() : '';
-}
-
-function truncate(str, maxlength) {
-  return str.length > maxlength ?
-    `${str.slice(0, maxlength - 1)}…` : str;
 }
 
 showVerticalMessage('');
@@ -22,5 +21,7 @@ console.log('------------------')
 showVerticalMessage('марафон');
 console.log('------------------')
 showVerticalMessage('Марафон');
+console.log('------------------')
+showVerticalMessage('великий фро');
 console.log('------------------')
 showVerticalMessage('великий фронтенд марафон');
