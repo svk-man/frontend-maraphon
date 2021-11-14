@@ -43,6 +43,12 @@ function changeStatus(name, status) {
   }
 }
 
+function changePriority(name, priority) {
+  if (isNameInList(name) && isValidPriority(priority)) {
+    list.forEach(item => (item.name === name ? item.priority = priority : item));
+  }
+}
+
 function getMaxId() {
   let max = 0;
 
@@ -124,6 +130,6 @@ addTask('go to work');
 addTask('come home', STATUS_TO_DO, PRIORITY_HIGH);
 changeStatus('write a post', STATUS_DONE);
 changeStatus('go to work', STATUS_IN_PROGRESS);
-changeStatus('have a walk', STATUS_DONE);
+changePriority('write a post', PRIORITY_LOW);
 deleteTask('make a bed');
 showList();
