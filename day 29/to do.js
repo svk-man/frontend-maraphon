@@ -4,7 +4,7 @@ const STATUS_DONE = 'Done';
 const PRIORITY_LOW = 'low';
 const PRIORITY_HIGH = 'high';
 
-const list = [ 
+const tasks = [ 
   {
     id: 1,
     name: 'create a post',
@@ -25,8 +25,8 @@ const list = [
   }
 ]
 
-function isNameInList(name) {
-  return list.find(item => item.name === name);
+function isNameInTasks(name) {
+  return tasks.find(item => item.name === name);
 }
 
 function isValidStatus(status) {
@@ -38,21 +38,21 @@ function isValidPriority(priority) {
 }
 
 function changeStatus(name, status) {
-  if (isNameInList(name) && isValidStatus(status)) {
-    list.forEach(item => (item.name === name ? item.status = status : item));
+  if (isNameInTasks(name) && isValidStatus(status)) {
+    tasks.forEach(item => (item.name === name ? item.status = status : item));
   }
 }
 
 function changePriority(name, priority) {
-  if (isNameInList(name) && isValidPriority(priority)) {
-    list.forEach(item => (item.name === name ? item.priority = priority : item));
+  if (isNameInTasks(name) && isValidPriority(priority)) {
+    tasks.forEach(item => (item.name === name ? item.priority = priority : item));
   }
 }
 
 function getMaxId() {
   let max = 0;
 
-  list.forEach(item => (item.id > max ? max = item.id : max));
+  tasks.forEach(item => (item.id > max ? max = item.id : max));
 
   return max;
 }
@@ -62,7 +62,7 @@ function generateId() {
 }
 
 function addTask(name, status = STATUS_TO_DO, priority = PRIORITY_LOW) {
-  if (name && isValidStatus(status) && isValidPriority(priority) && !isNameInList(name)) {
+  if (name && isValidStatus(status) && isValidPriority(priority) && !isNameInTasks(name)) {
     const task = {
       id: generateId(),
       name,
@@ -70,26 +70,26 @@ function addTask(name, status = STATUS_TO_DO, priority = PRIORITY_LOW) {
       priority
     };
 
-    list.push(task);
+    tasks.push(task);
   }
 }
 
 function deleteTask(name) {
-  if (isNameInList(name)) {
-    list.forEach((item, index) => (item.name === name ? list.splice(index, 1) : item));
+  if (isNameInTasks(name)) {
+    tasks.forEach((item, index) => (item.name === name ? tasks.splice(index, 1) : item));
   }
 }
 
 function showTasksByStatus(status = STATUS_TO_DO) {
-  let filteredList = [];
+  let filteredTasks = [];
 
   if (isValidStatus) {
-    filteredList = list.filter(item => (item.status === status));
+    filteredTasks = tasks.filter(item => (item.status === status));
   }
 
   console.log(`${status}:`);
-  if (filteredList.length) {
-    filteredList.forEach(item => {
+  if (filteredTasks.length) {
+    filteredTasks.forEach(item => {
       console.log(`  id: ${item.id}, name: ${item.name}, status: ${status}, priority: ${item.priority}`);
     });
   } else {
@@ -98,15 +98,15 @@ function showTasksByStatus(status = STATUS_TO_DO) {
 }
 
 function showTasksByPriority(priority = PRIORITY_LOW) {
-  let filteredList = [];
+  let filteredTasks = [];
 
   if (isValidPriority) {
-    filteredList = list.filter(item => (item.priority === priority));
+    filteredTasks = tasks.filter(item => (item.priority === priority));
   }
 
   console.log(`${priority}:`);
-  if (filteredList.length) {
-    filteredList.forEach(item => {
+  if (filteredTasks.length) {
+    filteredTasks.forEach(item => {
       console.log(`  id: ${item.id}, name: ${item.name}, status: ${item.status}, priority: ${priority}`);
     });
   } else {
@@ -114,7 +114,7 @@ function showTasksByPriority(priority = PRIORITY_LOW) {
   }
 }
 
-function showList() {
+function showTasks() {
   showTasksByStatus(STATUS_TO_DO);
   showTasksByStatus(STATUS_IN_PROGRESS);
   showTasksByStatus(STATUS_DONE);
@@ -132,4 +132,4 @@ changeStatus('write a post', STATUS_DONE);
 changeStatus('go to work', STATUS_IN_PROGRESS);
 changePriority('write a post', PRIORITY_LOW);
 deleteTask('make a bed');
-showList();
+showTasks();
