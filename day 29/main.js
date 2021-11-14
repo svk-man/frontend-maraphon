@@ -365,3 +365,34 @@ function getAverageAge(arr) {
 
 console.log(getAverageAge(arr)); // (25 + 30 + 29) / 3 = 28
 console.log();
+
+/*
+Пусть arr – массив строк.
+
+Напишите функцию unique(arr), которая возвращает массив, содержащий только уникальные элементы arr.
+
+Например:
+
+function unique(arr) {
+  // ваш код
+}
+
+let strings = ["кришна", "кришна", "харе", "харе",
+  "харе", "харе", "кришна", "кришна", ":-O"
+];
+
+alert( unique(strings) ); // кришна, харе, :-O
+*/
+let strings = ["кришна", "кришна", "харе", "харе",
+  "харе", "харе", "кришна", "кришна", ":-O"
+];
+
+function unique(arr) {
+  let result = [];
+
+  arr.forEach(item => !result.includes(item) ? result.push(item) : null);
+
+  return result;
+}
+
+console.log(unique(strings)); // кришна, харе, :-O
