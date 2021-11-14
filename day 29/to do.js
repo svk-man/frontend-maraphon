@@ -91,15 +91,37 @@ function showTasksByStatus(status = STATUS_TO_DO) {
   }
 }
 
+function showTasksByPriority(priority = PRIORITY_LOW) {
+  let filteredList = [];
+
+  if (isValidPriority) {
+    filteredList = list.filter(item => (item.priority === priority));
+  }
+
+  console.log(`${priority}:`);
+  if (filteredList.length) {
+    filteredList.forEach(item => {
+      console.log(`  id: ${item.id}, name: ${item.name}, status: ${item.status}, priority: ${priority}`);
+    });
+  } else {
+    console.log('-\n');
+  }
+}
+
 function showList() {
   showTasksByStatus(STATUS_TO_DO);
   showTasksByStatus(STATUS_IN_PROGRESS);
   showTasksByStatus(STATUS_DONE);
+
+  console.log('\n');
+
+  showTasksByPriority(PRIORITY_LOW);
+  showTasksByPriority(PRIORITY_HIGH);
 }
 
-addTask('have a walk');
+addTask('have a walk', STATUS_TO_DO, PRIORITY_HIGH);
 addTask('go to work');
-addTask('come home');
+addTask('come home', STATUS_TO_DO, PRIORITY_HIGH);
 changeStatus('write a post', STATUS_DONE);
 changeStatus('go to work', STATUS_IN_PROGRESS);
 changeStatus('have a walk', STATUS_DONE);
