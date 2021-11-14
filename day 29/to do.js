@@ -10,20 +10,20 @@ const tasks = [
     id: 1,
     name: 'create a post',
     status: STATUS_IN_PROGRESS,
-    priority: PRIORITY_LOW
+    priority: PRIORITY_LOW,
   }, 
   {
     id: 2,
     name: 'make a bed',
     status: STATUS_DONE,
-    priority: PRIORITY_HIGH
+    priority: PRIORITY_HIGH,
   },
   {
     id: 3,
     name: 'write a post',
     status: STATUS_TO_DO,
-    priority: PRIORITY_LOW
-  }
+    priority: PRIORITY_LOW,
+  },
 ];
 
 function isNameInTasks(name) {
@@ -68,7 +68,7 @@ function addTask(name, status = STATUS_TO_DO, priority = PRIORITY_LOW) {
       id: generateId(),
       name,
       status,
-      priority
+      priority,
     };
 
     tasks.push(task);
