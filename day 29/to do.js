@@ -1,7 +1,9 @@
+const STATUS = 'status';
 const STATUS_TO_DO = 'To Do';
 const STATUS_IN_PROGRESS = 'In Progress';
 const STATUS_DONE = 'Done';
 
+const PRIORITY = 'priority';
 const PRIORITY_LOW = 'low';
 const PRIORITY_HIGH = 'high';
 
@@ -115,15 +117,24 @@ function showTasksByPriority(priority = PRIORITY_LOW) {
   }
 }
 
+function showTasksBy(property) {
+  switch(property) {
+    case STATUS:
+      showTasksByStatus(STATUS_TO_DO);
+      showTasksByStatus(STATUS_IN_PROGRESS);
+      showTasksByStatus(STATUS_DONE);
+      break;
+    case PRIORITY:
+      showTasksByPriority(PRIORITY_LOW);
+      showTasksByPriority(PRIORITY_HIGH);
+      break;
+  }
+}
+
 function showTasks() {
-  showTasksByStatus(STATUS_TO_DO);
-  showTasksByStatus(STATUS_IN_PROGRESS);
-  showTasksByStatus(STATUS_DONE);
-
+  showTasksBy(STATUS);
   console.log('\n');
-
-  showTasksByPriority(PRIORITY_LOW);
-  showTasksByPriority(PRIORITY_HIGH);
+  showTasksBy(PRIORITY);
 }
 
 addTask('have a walk', STATUS_TO_DO, PRIORITY_HIGH);
