@@ -1,5 +1,5 @@
-function truncate(str, maxlength = 10) {
-  return str.slice(0, maxlength);
+function truncate(str, maxLength = 10) {
+  return str.slice(0, maxLength);
 }
 
 function showVerticalMessage(str) {
