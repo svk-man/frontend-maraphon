@@ -3,12 +3,12 @@ function truncate(str, maxLength = 10) {
 }
 
 function showVerticalMessage(str) {
-  let changedStr = truncate(str);
-  if (changedStr.startsWith('м')) {
-    changedStr[0] = changedStr[0].toUpperCase();
+  let truncatedStr = truncate(str);
+  if (truncatedStr.startsWith('м')) {
+    truncatedStr[0] = truncatedStr[0].toUpperCase();
   }
 
-  for (const char of changedStr) {
+  for (const char of truncatedStr) {
     console.log(char);
   }
 }
