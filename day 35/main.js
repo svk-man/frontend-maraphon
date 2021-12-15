@@ -1,5 +1,5 @@
 function buildFun(n){
-  var res = []
+  var res = [];
 
   for (var i = 0; i< n; i++){
     let j = i;
@@ -9,7 +9,7 @@ function buildFun(n){
     })
   }
 
-  return res
+  return res;
 }
 
 for(var i = 0; i < 10; i++){
