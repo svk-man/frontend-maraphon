@@ -56,16 +56,8 @@ function changePriority(name, priority) {
   }
 }
 
-function getMaxId() {
-  let max = 0;
-
-  tasks.forEach(item => (item.id > max ? max = item.id : max));
-
-  return max;
-}
-
 function generateId() {
-  return getMaxId() + 1;
+  return tasks.length > 1 ? tasks[tasks.length - 1].id + 1 : 0;
 }
 
 function addTask(name, status = STATUSES.toDo, priority = PRIORITIES.low) {
