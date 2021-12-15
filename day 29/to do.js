@@ -32,10 +32,6 @@ const tasks = [
   },
 ];
 
-function isNameInTasks(name) {
-  return tasks.find(item => item.name === name);
-}
-
 function isValidStatus(status) {
   return status === STATUSES.inProgress || status === STATUSES.done || status === STATUSES.toDo;
 }
@@ -44,15 +40,19 @@ function isValidPriority(priority) {
   return priority === PRIORITIES.low || priority === PRIORITIES.high;
 }
 
-function changeStatus(name, status) {
-  if (isNameInTasks(name) && isValidStatus(status)) {
-    tasks.forEach(item => (item.name === name ? item.status = status : item));
+function changeStatus(id, status) {
+  const index = findTaskIndex(id);
+  const isTaskFound = index !== -1;
+  if (isTaskFound && isValidStatus(status)) {
+    tasks[index].status = status;
   }
 }
 
-function changePriority(name, priority) {
-  if (isNameInTasks(name) && isValidPriority(priority)) {
-    tasks.forEach(item => (item.name === name ? item.priority = priority : item));
+function changePriority(id, priority) {
+  const index = findTaskIndex(id);
+  const isTaskFound = index !== -1;
+  if (isTaskFound && isValidPriority(priority)) {
+    tasks[index].priority = priority;
   }
 }
 
@@ -61,7 +61,7 @@ function generateId() {
 }
 
 function addTask(name, status = STATUSES.toDo, priority = PRIORITIES.low) {
-  if (name && isValidStatus(status) && isValidPriority(priority) && !isNameInTasks(name)) {
+  if (name && isValidStatus(status) && isValidPriority(priority)) {
     const task = {
       id: generateId(),
       name,
@@ -73,9 +73,15 @@ function addTask(name, status = STATUSES.toDo, priority = PRIORITIES.low) {
   }
 }
 
-function deleteTask(name) {
-  if (isNameInTasks(name)) {
-    tasks.forEach((item, index) => (item.name === name ? tasks.splice(index, 1) : item));
+function findTaskIndex(id) {
+  return tasks.findIndex((item) => (item.id === id));
+}
+
+function deleteTask(id) {
+  const index = findTaskIndex(id);
+  const isFoundTask = index !== -1;
+  if (isFoundTask) {
+    tasks.splice(index, 1);
   }
 }
 
@@ -136,8 +142,9 @@ function showTasks() {
 addTask('have a walk', STATUSES.toDo, PRIORITIES.high);
 addTask('go to work');
 addTask('come home', STATUSES.toDo, PRIORITIES.high);
-changeStatus('write a post', STATUSES.done);
-changeStatus('go to work', STATUSES.inProgress);
-changePriority('write a post', PRIORITIES.low);
-deleteTask('make a bed');
+changeStatus(3, STATUSES.done);
+changeStatus(5, STATUSES.inProgress);
+changePriority(3, PRIORITIES.low);
+deleteTask(2);
+deleteTask(4);
 showTasks();
