@@ -1,15 +1,17 @@
 function buildFun(n){
-  let arr = [];
+  var res = []
 
-  for (let i = 0; i < n; i++) {
-    arr[i] = function() {
-      return i;
-    }
+  for (var i = 0; i< n; i++){
+    let j = i;
+
+    res.push(function(){
+      return j;
+    })
   }
 
-  return arr;
+  return res
 }
 
-for(let i = 0; i < 10; i++){
+for(var i = 0; i < 10; i++){
   console.log(buildFun(10)[i]());
 }
