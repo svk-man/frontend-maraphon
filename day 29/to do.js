@@ -11,7 +11,7 @@ const PRIORITIES = {
   HIGH: 'HIGH',
 }
 
-const tasks = [ 
+let tasks = [ 
   {
     id: 1,
     name: 'create a post',
@@ -41,19 +41,25 @@ function isValidPriority(priority) {
 }
 
 function changeStatus(id, status) {
-  const index = findTaskIndex(id);
-  const isTaskFound = index !== -1;
-  if (isTaskFound && isValidStatus(status)) {
-    tasks[index].status = status;
-  }
+  tasks.some(function (element) {
+    if (element.id === id) {
+      element.status = status;
+      return true;
+    }
+
+    return false;
+  });
 }
 
 function changePriority(id, priority) {
-  const index = findTaskIndex(id);
-  const isTaskFound = index !== -1;
-  if (isTaskFound && isValidPriority(priority)) {
-    tasks[index].priority = priority;
-  }
+  tasks.some(function (element) {
+    if (element.id === id) {
+      element.priority = priority;
+      return true;
+    }
+
+    return false;
+  });
 }
 
 function generateId() {
@@ -73,16 +79,10 @@ function addTask(name, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
   }
 }
 
-function findTaskIndex(id) {
-  return tasks.findIndex((item) => (item.id === id));
-}
-
 function deleteTask(id) {
-  const index = findTaskIndex(id);
-  const isFoundTask = index !== -1;
-  if (isFoundTask) {
-    tasks.splice(index, 1);
-  }
+  tasks = tasks.filter(function(element) {
+    return element.id !== id;
+  });
 }
 
 function showTasksByStatus(status = STATUSES.TO_DO) {
