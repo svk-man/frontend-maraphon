@@ -9,6 +9,9 @@ for (const numberBtn of numberBtns) {
   numberBtn.addEventListener('click', addNumberToOutput);
 }
 
+const deleteBtn = document.querySelector('.calc__delete-btn');
+deleteBtn.addEventListener('click', deleteSymbolFromOutput);
+
 function clearOutput() {
   output.textContent = '0';
 }
@@ -32,6 +35,15 @@ function addNumberToOutput(event) {
   const isPossibleToAddToOutput = outputText.length < OUTPUT_MAX_SIZE;
   if (isPossibleToAddToOutput) {
     output.textContent = outputText + numberBtnText;
+  }
+}
+
+function deleteSymbolFromOutput() {
+  const outputText = output.textContent;
+
+  output.textContent = outputText.slice(0, outputText.length - 1);
+  if (!output.textContent.length) {
+    clearOutput();
   }
 }
 
