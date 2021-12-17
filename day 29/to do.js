@@ -1,71 +1,73 @@
 const STATUS = 'status';
-const STATUS_TO_DO = 'To Do';
-const STATUS_IN_PROGRESS = 'In Progress';
-const STATUS_DONE = 'Done';
+const STATUSES = {
+  TO_DO: 'To Do',
+  IN_PROGRESS: 'In Progress',
+  DONE: 'DONE',
+}
 
 const PRIORITY = 'priority';
-const PRIORITY_LOW = 'low';
-const PRIORITY_HIGH = 'high';
+const PRIORITIES = {
+  LOW: 'LOW',
+  HIGH: 'HIGH',
+}
 
-const tasks = [ 
+let tasks = [ 
   {
     id: 1,
     name: 'create a post',
-    status: STATUS_IN_PROGRESS,
-    priority: PRIORITY_LOW,
+    status: STATUSES.IN_PROGRESS,
+    priority: PRIORITIES.LOW,
   }, 
   {
     id: 2,
     name: 'make a bed',
-    status: STATUS_DONE,
-    priority: PRIORITY_HIGH,
+    status: STATUSES.DONE,
+    priority: PRIORITIES.HIGH,
   },
   {
     id: 3,
     name: 'write a post',
-    status: STATUS_TO_DO,
-    priority: PRIORITY_LOW,
+    status: STATUSES.TO_DO,
+    priority: PRIORITIES.LOW,
   },
 ];
 
-function isNameInTasks(name) {
-  return tasks.find(item => item.name === name);
-}
-
 function isValidStatus(status) {
-  return status === STATUS_IN_PROGRESS || status === STATUS_DONE || status === STATUS_TO_DO;
+  return status === STATUSES.IN_PROGRESS || status === STATUSES.DONE || status === STATUSES.TO_DO;
 }
 
 function isValidPriority(priority) {
-  return priority === PRIORITY_LOW || priority === PRIORITY_HIGH;
+  return priority === PRIORITIES.LOW || priority === PRIORITIES.HIGH;
 }
 
-function changeStatus(name, status) {
-  if (isNameInTasks(name) && isValidStatus(status)) {
-    tasks.forEach(item => (item.name === name ? item.status = status : item));
-  }
+function changeStatus(id, status) {
+  tasks.some(function (element) {
+    if (element.id === id) {
+      element.status = status;
+      return true;
+    }
+
+    return false;
+  });
 }
 
-function changePriority(name, priority) {
-  if (isNameInTasks(name) && isValidPriority(priority)) {
-    tasks.forEach(item => (item.name === name ? item.priority = priority : item));
-  }
-}
+function changePriority(id, priority) {
+  tasks.some(function (element) {
+    if (element.id === id) {
+      element.priority = priority;
+      return true;
+    }
 
-function getMaxId() {
-  let max = 0;
-
-  tasks.forEach(item => (item.id > max ? max = item.id : max));
-
-  return max;
+    return false;
+  });
 }
 
 function generateId() {
-  return getMaxId() + 1;
+  return tasks.length > 1 ? tasks[tasks.length - 1].id + 1 : 0;
 }
 
-function addTask(name, status = STATUS_TO_DO, priority = PRIORITY_LOW) {
-  if (name && isValidStatus(status) && isValidPriority(priority) && !isNameInTasks(name)) {
+function addTask(name, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
+  if (name && isValidStatus(status) && isValidPriority(priority)) {
     const task = {
       id: generateId(),
       name,
@@ -77,13 +79,13 @@ function addTask(name, status = STATUS_TO_DO, priority = PRIORITY_LOW) {
   }
 }
 
-function deleteTask(name) {
-  if (isNameInTasks(name)) {
-    tasks.forEach((item, index) => (item.name === name ? tasks.splice(index, 1) : item));
-  }
+function deleteTask(id) {
+  tasks = tasks.filter(function(element) {
+    return element.id !== id;
+  });
 }
 
-function showTasksByStatus(status = STATUS_TO_DO) {
+function showTasksByStatus(status = STATUSES.TO_DO) {
   let filteredTasks = [];
 
   if (isValidStatus) {
@@ -120,13 +122,13 @@ function showTasksByPriority(priority = PRIORITY_LOW) {
 function showTasksBy(property) {
   switch(property) {
     case STATUS:
-      showTasksByStatus(STATUS_TO_DO);
-      showTasksByStatus(STATUS_IN_PROGRESS);
-      showTasksByStatus(STATUS_DONE);
+      showTasksByStatus(STATUSES.TO_DO);
+      showTasksByStatus(STATUSES.IN_PROGRESS);
+      showTasksByStatus(STATUSES.DONE);
       break;
     case PRIORITY:
-      showTasksByPriority(PRIORITY_LOW);
-      showTasksByPriority(PRIORITY_HIGH);
+      showTasksByPriority(PRIORITIES.LOW);
+      showTasksByPriority(PRIORITIES.HIGH);
       break;
   }
 }
@@ -137,11 +139,12 @@ function showTasks() {
   showTasksBy(PRIORITY);
 }
 
-addTask('have a walk', STATUS_TO_DO, PRIORITY_HIGH);
+addTask('have a walk', STATUSES.TO_DO, PRIORITIES.HIGH);
 addTask('go to work');
-addTask('come home', STATUS_TO_DO, PRIORITY_HIGH);
-changeStatus('write a post', STATUS_DONE);
-changeStatus('go to work', STATUS_IN_PROGRESS);
-changePriority('write a post', PRIORITY_LOW);
-deleteTask('make a bed');
+addTask('come home', STATUSES.TO_DO, PRIORITIES.HIGH);
+changeStatus(3, STATUSES.DONE);
+changeStatus(5, STATUSES.IN_PROGRESS);
+changePriority(3, PRIORITIES.LOW);
+deleteTask(2);
+deleteTask(4);
 showTasks();
