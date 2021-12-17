@@ -1,14 +1,41 @@
 const output = document.querySelector('.calc__output');
+const OUTPUT_MAX_SIZE = 5;
 
-const btnClear = document.querySelector('.calc__clear-btn');
-btnClear.addEventListener('click', clearOutput);
+const clearBtn = document.querySelector('.calc__clear-btn');
+clearBtn.addEventListener('click', clearOutput);
+
+const numberBtns = document.querySelectorAll('.calc__number-btn');
+for (const numberBtn of numberBtns) {
+  numberBtn.addEventListener('click', addNumberToOutput);
+}
 
 function clearOutput() {
-  output.textContent = '';
+  output.textContent = '0';
+}
+
+function isEmptyOutput() {
+  return output.textContent === '0';
+}
+
+function addNumberToOutput(event) {
+  const numberBtnText = event.target.textContent;
+  let outputText = output.textContent;
+
+  if (numberBtnText === '0' && isEmptyOutput()) {
+    return;
+  }
+
+  if (isEmptyOutput()) {
+    outputText = '';
+  }
+
+  const isPossibleToAddToOutput = outputText.length < OUTPUT_MAX_SIZE;
+  if (isPossibleToAddToOutput) {
+    output.textContent = outputText + numberBtnText;
+  }
 }
 
 /*
-const RES_MAX_SIZE = 5;
 const BTN_CLEAR_TEXT = 'C';
 const BTN_ADD_TEXT = '+';
 const BTN_SUB_TEXT = '–';
