@@ -1,3 +1,13 @@
+const output = document.querySelector('.calc__output');
+
+const btnClear = document.querySelector('.calc__clear-btn');
+btnClear.addEventListener('click', clearOutput);
+
+function clearOutput() {
+  output.textContent = '';
+}
+
+/*
 const RES_MAX_SIZE = 5;
 const BTN_CLEAR_TEXT = 'C';
 const BTN_ADD_TEXT = '+';
@@ -148,3 +158,4 @@ for (const calcBtn of calcBtns) {
     }
   }
 }
+*/
