@@ -12,8 +12,16 @@ for (const numberBtn of numberBtns) {
 const deleteBtn = document.querySelector('.calc__delete-btn');
 deleteBtn.addEventListener('click', deleteSymbolFromOutput);
 
+const operatorBtns = document.querySelectorAll('.calc__operator-btn');
+for (const operatorBtn of operatorBtns) {
+  operatorBtn.addEventListener('click', calculate);
+}
+
 function clearOutput() {
   output.textContent = '0';
+  operand1 = null;
+  operation = null;
+  operand2 = null;
 }
 
 function isEmptyOutput() {
@@ -28,13 +36,14 @@ function addNumberToOutput(event) {
     return;
   }
 
-  if (isEmptyOutput()) {
+  if (isEmptyOutput() || isOperationPrevious) {
     outputText = '';
   }
 
   const isPossibleToAddToOutput = outputText.length < OUTPUT_MAX_SIZE;
   if (isPossibleToAddToOutput) {
     output.textContent = outputText + numberBtnText;
+    isOperationPrevious = false;
   }
 }
 
@@ -47,81 +56,52 @@ function deleteSymbolFromOutput() {
   }
 }
 
-/*
-const BTN_CLEAR_TEXT = 'C';
-const BTN_ADD_TEXT = '+';
-const BTN_SUB_TEXT = '–';
-const BTN_MULT_TEXT = '×';
-const BTN_DIV_TEXT = '÷';
-const BTN_EQUAL_TEXT = '=';
-const BTN_REMOVE_TEXT = String.fromCharCode('9003');
-const OPERATION_ADD = 'add';
-const OPERATION_SUB = 'sub';
-const OPERATION_MULT = 'mult';
-const OPERATION_DIV = 'div';
-const OPERATION_EQUAL = 'equal';
-const OPERATION_MOD = 'mod';
-const OPERATION_POW = 'pow';
+const OPERATIONS = {
+  ADD: 'add',
+  SUB: 'sub',
+  MULT: 'mult',
+  DIV: 'div',
+  EQUAL: 'equal',
+  MOD: 'mod',
+  POW: 'pow',
+};
+
+const OPERATION_BTNS = {
+  '+': OPERATIONS.ADD,
+  '–': OPERATIONS.SUB,
+  '×': OPERATIONS.MULT,
+  '÷': OPERATIONS.DIV,
+  '=': OPERATIONS.EQUAL,
+};
+
+let isOperationPrevious = false;
+let operand1 = null;
+let operation = null;
+let operand2 = null;
+function calculate(event) {
+  if (!isOperationPrevious) {
+    if (!operand1) {
+      operand1 = output.textContent;
+    } else {
+      operand2 = output.textContent;
+    }
+
+    if (operand1 && operation && operand2) {
+      const result = calc(operation, operand1, operand2);
+      output.textContent = result;
+      operand1 = result;
+    }
+  }
+
+  if (OPERATION_BTNS[event.target.textContent] !== OPERATIONS.EQUAL) {
+    operation = OPERATION_BTNS[event.target.textContent];
+    operand2 = null;
+  }
+
+  isOperationPrevious = true;
+}
+
 const ERROR_MESSAGE = 'ERROR';
-const calcRes = document.querySelector('.calc__res');
-const calcBtns = document.querySelectorAll('.calc__btn');
-const calcBtnsOpers = {};
-calcBtnsOpers[BTN_ADD_TEXT] = OPERATION_ADD;
-calcBtnsOpers[BTN_SUB_TEXT] = OPERATION_SUB;
-calcBtnsOpers[BTN_MULT_TEXT] = OPERATION_MULT;
-calcBtnsOpers[BTN_DIV_TEXT] = OPERATION_DIV;
-calcBtnsOpers[BTN_EQUAL_TEXT] = OPERATION_EQUAL;
-
-console.log(calcBtnsOpers);
-
-function clearResult() {
-  calcRes.innerHTML = '';
-}
-
-function getOperatorFromResult() {
-  for (const operator in calcBtnsOpers) {
-    if (calcRes.innerHTML.includes(operator)) {
-      return operator;
-    }
-  }
-
-  return '';
-}
-
-function removeSymbolFromResult() {
-  let result = calcRes.innerHTML;
-  const resultLength = result.length;
-  if (resultLength) {
-    const prevSymbol = result[resultLength - 2];
-    result = result.slice(0, prevSymbol === '.' ? resultLength - 2 : resultLength - 1);
-    result = result === BTN_SUB_TEXT ? '' : result;
-    calcRes.innerHTML = result;
-  }
-}
-
-function addTextToResult(text) {
-  const isZeroFound = calcRes.innerHTML === '0' && text === '0';
-  const isMultFound = !calcRes.innerHTML && text === BTN_MULT_TEXT;
-  const isDivFound = !calcRes.innerHTML && text === BTN_DIV_TEXT;
-
-  if (calcRes.innerHTML.length < RES_MAX_SIZE && !isZeroFound) {
-    const operator = getOperatorFromResult();
-    const isOperatorText = !!calcBtnsOpers[text];
-    if (operator && isOperatorText) {
-      removeSymbolFromResult();
-    }
-
-    if (text.endsWith('.0')) {
-      text = text.replace('.0', '');
-    }
-
-    calcRes.innerHTML += text;
-    if (isMultFound || isDivFound) {
-      clearResult();
-    }
-  }
-}
-
 function calc(operator, operand1, operand2) {
   let result = '';
   operand1 = Number(operand1);
@@ -132,13 +112,14 @@ function calc(operator, operand1, operand2) {
   }
 
   if (isValidOperand(operand1) && isValidOperand(operand2)) {
-    const operators = {};
-    operators[OPERATION_ADD] = operand1 + operand2;
-    operators[OPERATION_SUB] = operand1 - operand2;
-    operators[OPERATION_MULT] = operand1 * operand2;
-    operators[OPERATION_DIV] = (operand2 === 0 ? `${ERROR_MESSAGE}: division by zero` : operand1 / operand2);
-    operators[OPERATION_MOD] = (operand2 === 0 ? `${ERROR_MESSAGE}: division by zero` : operand1 % operand2);
-    operators[OPERATION_POW] = operand1 ** operand2;
+    const operators = {
+      [OPERATIONS.ADD]: operand1 + operand2,
+      [OPERATIONS.SUB]: operand1 - operand2,
+      [OPERATIONS.MULT]: operand1 * operand2,
+      [OPERATIONS.DIV]: (operand2 === 0 ? `${ERROR_MESSAGE}: division by zero` : operand1 / operand2),
+      [OPERATIONS.MOD]: (operand2 === 0 ? `${ERROR_MESSAGE}: division by zero` : operand1 % operand2),
+      [OPERATIONS.POW]: operand1 ** operand2,
+    };
 
     result = operators[operator] !== undefined ? String(operators[operator]) : `${ERROR_MESSAGE}: unknown operator`;
   } else {
@@ -147,54 +128,3 @@ function calc(operator, operand1, operand2) {
 
   return result;
 }
-
-function calcResult() {
-  const calcResText = calcRes.innerHTML;
-  const operator = getOperatorFromResult();
-  const isOperatorExists = !!operator;
-  if (isOperatorExists) {
-    const operands = calcResText.split(operator);
-    if (operands[1] === '' && (operator === BTN_MULT_TEXT || operator === BTN_DIV_TEXT)) {
-      operands[1] = 1;
-    }
-
-    const result = calc(calcBtnsOpers[operator], operands[0], operands[1]);
-    clearResult();
-    addTextToResult(!result.includes(ERROR_MESSAGE) ? Math.fround(result).toFixed(1).replace('-', BTN_SUB_TEXT) : ERROR_MESSAGE);
-  }
-}
-
-for (const calcBtn of calcBtns) {
-  calcBtn.onclick = function() {
-    const calcResText = calcRes.innerHTML;
-    const calcBtnText = calcBtn.innerHTML;
-    const isClearBtn = calcBtnText === BTN_CLEAR_TEXT;
-    const isNumberBtn = Number(calcBtnText) >= 0 || Number(calcBtnText) <= 9;
-    const isRemoveBtn = calcBtnText === BTN_REMOVE_TEXT;
-    const isOperatorBtn = !!calcBtnsOpers[calcBtnText];
-    const isEqualBtn = calcBtnText === BTN_EQUAL_TEXT;
-    const isCalcResTextExist = !!calcResText;
-    const isCalcResTextErrorExist = calcResText.includes(ERROR_MESSAGE);
-
-    if (isCalcResTextErrorExist) {
-      clearResult();
-    }
-
-    if (isNumberBtn) {
-      addTextToResult(calcBtnText);
-    } else if (isOperatorBtn) {
-      if (isCalcResTextExist) {
-        calcResult();
-      }
-
-      if (!isEqualBtn) {
-        addTextToResult(calcBtnText);
-      }
-    } else if (isRemoveBtn) {
-      removeSymbolFromResult();
-    } else if (isClearBtn) {
-      clearResult();
-    }
-  }
-}
-*/
