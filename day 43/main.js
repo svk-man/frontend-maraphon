@@ -26,12 +26,12 @@ const OPERATION_BTNS = {
 
 const OUTPUT_MAX_SIZE = 5;
 const ERROR_MESSAGE = 'ERROR';
-let isOperationPrevious = false;
+let isPrevOperation = false;
 let operand1 = null;
 let operation = null;
 let operand2 = null;
 
-UI_ELEMENTS.clearBtn.addEventListener('click', clear);
+UI_ELEMENTS.clearBtn.addEventListener('click', clearState);
 UI_ELEMENTS.deleteBtn.addEventListener('click', deleteSymbol);
 for (const numberBtn of UI_ELEMENTS.numberBtns) {
   numberBtn.addEventListener('click', addNumber);
@@ -55,19 +55,12 @@ function isEmpty() {
 function addNumber(event) {
   const numberBtnText = event.target.textContent;
   let outputText = UI_ELEMENTS.output.textContent;
+  const isPossibleAdd = (outputText.length - Number(isEmpty())) < OUTPUT_MAX_SIZE;
 
-  if (numberBtnText === '0' && isEmpty()) {
-    return;
-  }
-
-  if (isEmpty() || isOperationPrevious) {
-    outputText = '';
-  }
-
-  const isPossibleToAddToOutput = outputText.length < OUTPUT_MAX_SIZE;
-  if (isPossibleToAddToOutput) {
-    UI_ELEMENTS.output.textContent = outputText + numberBtnText;
-    isOperationPrevious = false;
+  if (isPossibleAdd) {
+    const prevOutputText = ((isEmpty() || isPrevOperation) ? '' : outputText);
+    UI_ELEMENTS.output.textContent = prevOutputText + numberBtnText;
+    isPrevOperation = false;
   }
 }
 
@@ -81,7 +74,7 @@ function deleteSymbol() {
 }
 
 function calculate(event) {
-  if (!isOperationPrevious) {
+  if (!isPrevOperation) {
     if (!operand1) {
       operand1 = UI_ELEMENTS.output.textContent;
     } else {
@@ -100,7 +93,7 @@ function calculate(event) {
     operand2 = null;
   }
 
-  isOperationPrevious = true;
+  isPrevOperation = true;
 }
 
 function calc(operator, operand1, operand2) {
