@@ -8,36 +8,36 @@ const UI_ELEMENTS = {
 
 const OUTPUT_MAX_SIZE = 5;
 
-UI_ELEMENTS.clearBtn.addEventListener('click', clearOutput);
-UI_ELEMENTS.deleteBtn.addEventListener('click', deleteSymbolFromOutput);
+UI_ELEMENTS.clearBtn.addEventListener('click', clear);
+UI_ELEMENTS.deleteBtn.addEventListener('click', deleteSymbol);
 for (const numberBtn of UI_ELEMENTS.numberBtns) {
-  numberBtn.addEventListener('click', addNumberToOutput);
+  numberBtn.addEventListener('click', addNumber);
 }
 
 for (const operatorBtn of UI_ELEMENTS.operatorBtns) {
   operatorBtn.addEventListener('click', calculate);
 }
 
-function clearOutput() {
+function clear() {
   UI_ELEMENTS.output.textContent = '0';
   operand1 = null;
   operation = null;
   operand2 = null;
 }
 
-function isEmptyOutput() {
+function isEmpty() {
   return UI_ELEMENTS.output.textContent === '0';
 }
 
-function addNumberToOutput(event) {
+function addNumber(event) {
   const numberBtnText = event.target.textContent;
   let outputText = UI_ELEMENTS.output.textContent;
 
-  if (numberBtnText === '0' && isEmptyOutput()) {
+  if (numberBtnText === '0' && isEmpty()) {
     return;
   }
 
-  if (isEmptyOutput() || isOperationPrevious) {
+  if (isEmpty() || isOperationPrevious) {
     outputText = '';
   }
 
@@ -48,12 +48,12 @@ function addNumberToOutput(event) {
   }
 }
 
-function deleteSymbolFromOutput() {
+function deleteSymbol() {
   const outputText = UI_ELEMENTS.output.textContent;
 
   UI_ELEMENTS.output.textContent = outputText.slice(0, outputText.length - 1);
   if (!UI_ELEMENTS.output.textContent.length) {
-    clearOutput();
+    clear();
   }
 }
 
