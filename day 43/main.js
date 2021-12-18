@@ -18,7 +18,7 @@ for (const operatorBtn of UI_ELEMENTS.operatorBtns) {
   operatorBtn.addEventListener('click', calculate);
 }
 
-function clear() {
+function clearState() {
   UI_ELEMENTS.output.textContent = '0';
   operand1 = null;
   operation = null;
@@ -53,7 +53,7 @@ function deleteSymbol() {
 
   UI_ELEMENTS.output.textContent = outputText.slice(0, outputText.length - 1);
   if (!UI_ELEMENTS.output.textContent.length) {
-    clear();
+    clearState();
   }
 }
 
