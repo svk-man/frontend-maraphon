@@ -6,7 +6,30 @@ const UI_ELEMENTS = {
   operatorBtns: document.querySelectorAll('.calc__operator-btn'),
 };
 
+const OPERATIONS = {
+  ADD: 'add',
+  SUB: 'sub',
+  MULT: 'mult',
+  DIV: 'div',
+  EQUAL: 'equal',
+  MOD: 'mod',
+  POW: 'pow',
+};
+
+const OPERATION_BTNS = {
+  '+': OPERATIONS.ADD,
+  '–': OPERATIONS.SUB,
+  '×': OPERATIONS.MULT,
+  '÷': OPERATIONS.DIV,
+  '=': OPERATIONS.EQUAL,
+};
+
 const OUTPUT_MAX_SIZE = 5;
+const ERROR_MESSAGE = 'ERROR';
+let isOperationPrevious = false;
+let operand1 = null;
+let operation = null;
+let operand2 = null;
 
 UI_ELEMENTS.clearBtn.addEventListener('click', clear);
 UI_ELEMENTS.deleteBtn.addEventListener('click', deleteSymbol);
@@ -57,28 +80,6 @@ function deleteSymbol() {
   }
 }
 
-const OPERATIONS = {
-  ADD: 'add',
-  SUB: 'sub',
-  MULT: 'mult',
-  DIV: 'div',
-  EQUAL: 'equal',
-  MOD: 'mod',
-  POW: 'pow',
-};
-
-const OPERATION_BTNS = {
-  '+': OPERATIONS.ADD,
-  '–': OPERATIONS.SUB,
-  '×': OPERATIONS.MULT,
-  '÷': OPERATIONS.DIV,
-  '=': OPERATIONS.EQUAL,
-};
-
-let isOperationPrevious = false;
-let operand1 = null;
-let operation = null;
-let operand2 = null;
 function calculate(event) {
   if (!isOperationPrevious) {
     if (!operand1) {
@@ -102,7 +103,6 @@ function calculate(event) {
   isOperationPrevious = true;
 }
 
-const ERROR_MESSAGE = 'ERROR';
 function calc(operator, operand1, operand2) {
   let result = '';
   operand1 = Number(operand1);
