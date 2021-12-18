@@ -1,36 +1,37 @@
-const output = document.querySelector('.calc__output');
+const UI_ELEMENTS = {
+  output: document.querySelector('.calc__output'),
+  clearBtn: document.querySelector('.calc__clear-btn'),
+  deleteBtn: document.querySelector('.calc__delete-btn'),
+  numberBtns: document.querySelectorAll('.calc__number-btn'),
+  operatorBtns: document.querySelectorAll('.calc__operator-btn'),
+};
+
 const OUTPUT_MAX_SIZE = 5;
 
-const clearBtn = document.querySelector('.calc__clear-btn');
-clearBtn.addEventListener('click', clearOutput);
-
-const numberBtns = document.querySelectorAll('.calc__number-btn');
-for (const numberBtn of numberBtns) {
+UI_ELEMENTS.clearBtn.addEventListener('click', clearOutput);
+UI_ELEMENTS.deleteBtn.addEventListener('click', deleteSymbolFromOutput);
+for (const numberBtn of UI_ELEMENTS.numberBtns) {
   numberBtn.addEventListener('click', addNumberToOutput);
 }
 
-const deleteBtn = document.querySelector('.calc__delete-btn');
-deleteBtn.addEventListener('click', deleteSymbolFromOutput);
-
-const operatorBtns = document.querySelectorAll('.calc__operator-btn');
-for (const operatorBtn of operatorBtns) {
+for (const operatorBtn of UI_ELEMENTS.operatorBtns) {
   operatorBtn.addEventListener('click', calculate);
 }
 
 function clearOutput() {
-  output.textContent = '0';
+  UI_ELEMENTS.output.textContent = '0';
   operand1 = null;
   operation = null;
   operand2 = null;
 }
 
 function isEmptyOutput() {
-  return output.textContent === '0';
+  return UI_ELEMENTS.output.textContent === '0';
 }
 
 function addNumberToOutput(event) {
   const numberBtnText = event.target.textContent;
-  let outputText = output.textContent;
+  let outputText = UI_ELEMENTS.output.textContent;
 
   if (numberBtnText === '0' && isEmptyOutput()) {
     return;
@@ -42,16 +43,16 @@ function addNumberToOutput(event) {
 
   const isPossibleToAddToOutput = outputText.length < OUTPUT_MAX_SIZE;
   if (isPossibleToAddToOutput) {
-    output.textContent = outputText + numberBtnText;
+    UI_ELEMENTS.output.textContent = outputText + numberBtnText;
     isOperationPrevious = false;
   }
 }
 
 function deleteSymbolFromOutput() {
-  const outputText = output.textContent;
+  const outputText = UI_ELEMENTS.output.textContent;
 
-  output.textContent = outputText.slice(0, outputText.length - 1);
-  if (!output.textContent.length) {
+  UI_ELEMENTS.output.textContent = outputText.slice(0, outputText.length - 1);
+  if (!UI_ELEMENTS.output.textContent.length) {
     clearOutput();
   }
 }
@@ -81,14 +82,14 @@ let operand2 = null;
 function calculate(event) {
   if (!isOperationPrevious) {
     if (!operand1) {
-      operand1 = output.textContent;
+      operand1 = UI_ELEMENTS.output.textContent;
     } else {
-      operand2 = output.textContent;
+      operand2 = UI_ELEMENTS.output.textContent;
     }
 
     if (operand1 && operation && operand2) {
       const result = calc(operation, operand1, operand2);
-      output.textContent = result;
+      UI_ELEMENTS.output.textContent = result;
       operand1 = result;
     }
   }
