@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Создайте календарь в виде таблицы</title>
+</head>
+<body>
+  <script>
+    createCalendar(document.body, 2012, 9);
+
+    function createCalendar(elem, year, month) {
+      const _month = month - 1;
+      const date = new Date(year, _month);
+      const lastDay = getLastDayOfMonth(year, _month);
+
+      let firstDayOfWeek = date.getDay();
+      const isSunday = firstDayOfWeek === 0;
+      firstDayOfWeek = isSunday ? 6 : firstDayOfWeek - 1;
+
+      let table = '<table>\n';
+
+      table += '<thead>\n<tr>\n';
+      const DAYS_OF_WEEK = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
+      DAYS_OF_WEEK.forEach(day => table += `<th>${day}</th>\n`);
+      table += '</thead>\n</tr>\n';
+
+      table += '<tbody>\n';
+      let day = 1;
+      let tableRowContent = '';
+      for (let i = 0; i < DAYS_OF_WEEK.length; i++) {
+        if (day === 1 && i < firstDayOfWeek) {
+          tableRowContent += `<td></td>\n`;
+        } else {
+          if (day <= lastDay) {
+            tableRowContent += `<td>${day}</td>\n`;
+            day++;
+          }
+        }
+
+        if (i === DAYS_OF_WEEK.length - 1) {
+          table += `<tr>${tableRowContent}</tr>\n`;
+          if (day < lastDay) {
+            i = -1;
+            tableRowContent = '';
+          }
+        }
+      }
+
+      table += '</tbody>\n';
+      table += '</table>';
+
+      elem.insertAdjacentHTML('beforeend', table);
+    }
+
+    function getLastDayOfMonth(year, month) {
+      const isDecember = month === 11;
+      const date1 = new Date(year, month);
+      const date2 = new Date(isDecember ? year + 1: year, isDecember ? 0 : month + 1);
+      return (date2.getTime() - date1.getTime()) / (1000 * 60 * 60 * 24);
+    }
+  </script>
+</body>
+</html>

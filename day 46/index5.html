@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Цветные часы с использованием setInterval</title>
+  <style>
+    .time__hours {
+      color: red;
+    }
+
+    .time__minutes {
+      color: green;
+    }
+
+    .time__seconds {
+      color: blue;
+    }
+  </style>
+</head>
+<body>
+  <p class="time">
+    <span class="time__hours">hh</span>:<span class="time__minutes">mm</span>:<span class="time__seconds">ss</span>
+  </p>
+  <button id="start-btn">Старт</button>
+  <button id="stop-btn">Стоп</button>
+  <script>
+    const UI_ELEMENTS = {
+      timeHours: document.querySelector('.time__hours'),
+      timeMinutes: document.querySelector('.time__minutes'),
+      timeSeconds: document.querySelector('.time__seconds'),
+      startBtn: document.getElementById('start-btn'),
+      stopBtn: document.getElementById('stop-btn'),
+    };
+
+    let timerId = null;
+
+    UI_ELEMENTS.startBtn.addEventListener('click', timeRun);
+    function timeRun() {
+      if (!timerId) {
+        timerId = setInterval(update, 1000);
+        update();
+
+        function update() {
+          const date = new Date();
+          const hours = date.getHours();
+          const minutes = date.getMinutes();
+          const seconds = date.getSeconds();
+          UI_ELEMENTS.timeHours.textContent = format(hours);
+          UI_ELEMENTS.timeMinutes.textContent = format(minutes);
+          UI_ELEMENTS.timeSeconds.textContent = format(seconds);
+        }
+
+        function format(number) {
+          return number < 10 ? '0' + number : number;
+        }
+      }
+    }
+
+    UI_ELEMENTS.stopBtn.addEventListener('click', timeStop);
+    function timeStop() {
+      if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+      }
+    }
+  </script>
+</body>
+</html>

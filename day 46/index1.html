@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Создайте список</title>
+</head>
+<body>
+  <ul id="list"></ul>
+  <script>
+    const list = document.getElementById('list');
+    let isRightListItemText = false;
+    
+    do {
+      const listItemText = prompt('Введите наименование пункта:', '');
+      isRightListItemText = listItemText !== null && listItemText !== '';
+
+      if (isRightListItemText) {
+        const listItem = document.createElement('li');
+        listItem.textContent = listItemText;
+
+        list.append(listItem);
+      }
+    } while (isRightListItemText)
+  </script>
+</body>
+</html>

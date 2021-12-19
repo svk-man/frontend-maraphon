@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сортировка таблицы</title>
+</head>
+<body>
+  <table id="table">
+    <tr>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th>Возраст</th>
+    </tr>
+    <tr>
+      <td>John</td>
+      <td>Smith</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <td>Pete</td>
+      <td>Brown</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <td>Ann</td>
+      <td>Lee</td>
+      <td>5</td>
+    </tr>
+  </table>
+
+  <script>
+    const table = document.getElementById('table');
+    const tableRows = table.getElementsByTagName('tr');
+    let sortedTableRows = Array.from(tableRows).sort(compare);
+
+    function compare(a, b) {
+      if (b.children[1].localName === 'th') {
+        return 0;
+      }
+
+      if (a.children[1].textContent > b.children[1].textContent) {
+        return 1;
+      } else if (a.children[1].textContent < b.children[1].textContent) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+
+    for (let i = 0; i < tableRows.length; i++) {
+      tableRows[i].after(sortedTableRows[i]);
+    }
+  </script>
+</body>
+</html>
