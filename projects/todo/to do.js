@@ -2,7 +2,7 @@ const STATUS = 'status';
 export const STATUSES = {
   TO_DO: 'To Do',
   IN_PROGRESS: 'In Progress',
-  DONE: 'DONE',
+  DONE: 'Done',
 }
 
 const PRIORITY = 'priority';
@@ -40,7 +40,7 @@ function isValidPriority(priority) {
   return priority === PRIORITIES.LOW || priority === PRIORITIES.HIGH;
 }
 
-function changeStatus(id, status) {
+export function changeStatus(id, status) {
   tasks.some(function (element) {
     if (element.id === id) {
       element.status = status;
@@ -157,4 +157,3 @@ changeStatus(5, STATUSES.IN_PROGRESS);
 changePriority(3, PRIORITIES.LOW);
 deleteTask(2);
 deleteTask(4);
-showTasks();

@@ -1,12 +1,8 @@
-import { tasks, PRIORITIES, STATUSES, getTask, addTask, deleteTask } from "./to do.js";
+import { tasks, STATUSES, PRIORITIES, addTask, getTask, changeStatus, deleteTask } from "./to do.js";
 
 export const UI_ELEMENTS = {
   highList: document.querySelectorAll('.todo__list')[0],
   lowList: document.querySelectorAll('.todo__list')[1],
-  addButtons: document.querySelectorAll('.todo__item-btn--add'),
-  deleteButtons: document.querySelectorAll('.todo__item-btn--delete'),
-  checkboxLabels: document.querySelectorAll('.todo__item-checkbox-label'),
-  inputs: document.querySelectorAll('.todo__item-input'),
 };
 
 export function showTodoList() {
@@ -61,12 +57,14 @@ function createListItemCheckbox(task) {
 
   const li = document.createElement('li');
   li.classList.add('todo__item');
+  li.dataset.id = task.id;
 
   const input = document.createElement('input');
   input.classList.add('todo__item-checkbox');
   input.type = 'checkbox';
   input.name = id;
   input.id = id;
+  input.addEventListener('change', changeListItemCheckboxStatus)
   if (task.status === STATUSES.DONE) {
     li.classList.add('todo__item--done');
     input.checked = true;
@@ -82,7 +80,6 @@ function createListItemCheckbox(task) {
 
   const button = document.createElement('button');
   button.classList.add('todo__item-btn', 'todo__item-btn--delete');
-  button.dataset.id = task.id;
   button.addEventListener('click', deleteListItemCheckbox)
   li.append(button);
 
@@ -108,15 +105,29 @@ function addListItemCheckbox(event) {
       } else {
         UI_ELEMENTS.lowList.append(li);
       }
+
+      form.children[0].value = '';
     }
   }
 
   return false;
 }
 
+function changeListItemCheckboxStatus(event) {
+  const listItemCheckbox = event.target;
+  const listItem = listItemCheckbox.parentNode;
+  const taskId = Number(listItem.dataset.id);
+  listItem.classList.toggle('todo__item--done');
+  if (listItemCheckbox.checked) {
+    changeStatus(taskId, STATUSES.DONE);
+  } else {
+    changeStatus(taskId, STATUSES.TO_DO);
+  }
+}
+
 function deleteListItemCheckbox(event) {
-  const checkboxButton = event.target;
-  const taskId = Number(checkboxButton.dataset.id);
+  const listItem = event.target.parentNode;
+  const taskId = Number(listItem.dataset.id);
   deleteTask(taskId);
-  checkboxButton.parentNode.remove();
+  listItem.remove();
 }

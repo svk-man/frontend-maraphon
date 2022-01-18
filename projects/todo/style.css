@@ -96,6 +96,7 @@ body {
 
 .todo__item-checkbox-label {
   position: relative;
+  width: 100%;
   padding-top: 1px;
   padding-left: 33px;
   display: inline-block;
@@ -112,7 +113,7 @@ body {
   position: absolute;
   display: inline-block;
   border-radius: 50%;
-  transition: .5s;
+  transition: .1s;
 }
 
 .todo__item-checkbox-label::before {
