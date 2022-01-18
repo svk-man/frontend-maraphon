@@ -16,6 +16,20 @@ body {
   padding: 25px 8px;
 }
 
+.todo__priority-list {
+  margin-bottom: 12px;
+}
+
+.todo__priority-list:last-child {
+  margin-bottom: 0;
+}
+
+.todo__priority-title {
+  margin-bottom: 12px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .todo__item {
   position: relative;
   min-height: 45px;
@@ -109,10 +123,14 @@ body {
   border: 1px solid #998899;
 }
 
-.todo__item-checkbox:checked + .todo__item-label::after {
+.todo__item-label::after {
   top: 4px;
   left: 4px;
   width: 15px;
   height: 15px;
+  background-color: #FFFFFF;
+}
+
+.todo__item-checkbox:checked + .todo__item-label::after {
   background-color: #C4C4C4;
 }
