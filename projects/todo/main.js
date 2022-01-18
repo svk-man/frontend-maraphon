@@ -1,4 +1,4 @@
-import { UI_ELEMENTS, clearLists } from "./view.js";
+import { showTodoList } from "./view.js";
 
 const STATUS = 'status';
 const STATUSES = {
@@ -155,4 +155,4 @@ deleteTask(2);
 deleteTask(4);
 showTasks();
 
-clearLists();
+showTodoList(tasks);
