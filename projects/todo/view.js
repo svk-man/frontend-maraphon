@@ -89,7 +89,7 @@ function createListItemCheckbox(task) {
 function addListItemCheckbox(event) {
   event.preventDefault();
 
-  const form = event.target;
+  const form = this;
   const taskName = form.children[0].value;
 
   if (taskName.trim()) {
@@ -113,8 +113,8 @@ function addListItemCheckbox(event) {
   return false;
 }
 
-function changeListItemCheckboxStatus(event) {
-  const listItemCheckbox = event.target;
+function changeListItemCheckboxStatus() {
+  const listItemCheckbox = this;
   const listItem = listItemCheckbox.parentNode;
   const taskId = Number(listItem.dataset.id);
   listItem.classList.toggle('todo__item--done');
@@ -125,8 +125,8 @@ function changeListItemCheckboxStatus(event) {
   }
 }
 
-function deleteListItemCheckbox(event) {
-  const listItem = event.target.parentNode;
+function deleteListItemCheckbox() {
+  const listItem = this.parentNode;
   const taskId = Number(listItem.dataset.id);
   deleteTask(taskId);
   listItem.remove();
