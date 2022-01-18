@@ -76,7 +76,7 @@ function createListItemCheckbox(task) {
 
   const label = document.createElement('label');
   label.classList.add('todo__item-checkbox-label');
-  label.for = id;
+  label.htmlFor = id;
   label.textContent = task.name;
   li.append(label);
 
