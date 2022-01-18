@@ -1,4 +1,4 @@
-import { UI_ELEMENTS } from "./view.js";
+import { UI_ELEMENTS, clearLists } from "./view.js";
 
 const STATUS = 'status';
 const STATUSES = {
@@ -104,12 +104,16 @@ function showTasksByStatus(status = STATUSES.TO_DO) {
   }
 }
 
-function showTasksByPriority(priority = PRIORITY_LOW) {
-  let filteredTasks = [];
-
+function getTasksByPriority(priority = PRIORITY_LOW) {
   if (isValidPriority) {
-    filteredTasks = tasks.filter(item => (item.priority === priority));
+    return tasks.filter(item => (item.priority === priority));
   }
+
+  return [];
+}
+
+function showTasksByPriority(priority = PRIORITY_LOW) {
+  let filteredTasks = getTasksByPriority(priority);
 
   console.log(`${priority}:`);
   if (filteredTasks.length) {
@@ -150,3 +154,5 @@ changePriority(3, PRIORITIES.LOW);
 deleteTask(2);
 deleteTask(4);
 showTasks();
+
+clearLists();
