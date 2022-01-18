@@ -5,9 +5,36 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TODO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <div class="todo">
+    <ul class="todo__list">
+      <li class="todo__item">
+        <input class="todo__item-input" type="text" placeholder="Добавить важных дел">
+        <button class="todo__item-btn todo__item-btn--add"></button>
+      </li>
+      <li class="todo__item">
+        <input class="todo__item-checkbox" type="checkbox" name="todo-item-1" id="todo-item-1">
+        <label class="todo__item-label" for="todo-item-1">Вот вам и супер интересная тема. 
+          Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.</label>
+        <button class="todo__item-btn todo__item-btn--remove"></button>
+      </li>
+      <li class="todo__item">
+        <input class="todo__item-checkbox" type="checkbox" name="todo-item-2" id="todo-item-2">
+        <label class="todo__item-label" for="todo-item-2">Сверстать этот TODO list</label>
+        <button class="todo__item-btn todo__item-btn--remove"></button>
+      </li>
+      <li class="todo__item todo__item--done">
+        <input class="todo__item-checkbox" type="checkbox" name="todo-item-3" id="todo-item-3" checked>
+        <label class="todo__item-label" for="todo-item-3">Начать делать задачу</label>
+        <button class="todo__item-btn todo__item-btn--remove"></button>
+      </li>
+    </ul>
+  </div>
   <script src="./index.js"></script>
 </body>
 </html>
