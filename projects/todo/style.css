@@ -81,11 +81,11 @@ body {
   background-image: url("./assets/svg/add-icon.svg");
 }
 
-.todo__item-btn--remove {
+.todo__item-btn--delete {
   right: 16px;
   width: 18px;
   height: 18px;
-  background-image: url("./assets/svg/remove-icon.svg");
+  background-image: url("./assets/svg/delete-icon.svg");
 }
 
 .todo__item-checkbox {

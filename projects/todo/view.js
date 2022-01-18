@@ -1,10 +1,10 @@
-import { tasks, PRIORITIES, STATUSES, addTask, getTask } from "./to do.js";
+import { tasks, PRIORITIES, STATUSES, getTask, addTask, deleteTask } from "./to do.js";
 
 export const UI_ELEMENTS = {
   highList: document.querySelectorAll('.todo__list')[0],
   lowList: document.querySelectorAll('.todo__list')[1],
   addButtons: document.querySelectorAll('.todo__item-btn--add'),
-  removeButtons: document.querySelectorAll('.todo__item-btn--remove'),
+  deleteButtons: document.querySelectorAll('.todo__item-btn--delete'),
   checkboxLabels: document.querySelectorAll('.todo__item-checkbox-label'),
   inputs: document.querySelectorAll('.todo__item-input'),
 };
@@ -41,7 +41,7 @@ function createListItemInput(placeholder = 'Добавить дел') {
   inputText.classList.add('todo__item-input');
   inputText.type = 'text';
   inputText.placeholder = placeholder;
-  form.addEventListener('submit', addListItemInput);
+  form.addEventListener('submit', addListItemCheckbox);
 
   form.append(inputText);
 
@@ -81,13 +81,15 @@ function createListItemCheckbox(task) {
   li.append(label);
 
   const button = document.createElement('button');
-  button.classList.add('todo__item-btn', 'todo__item-btn--remove');
+  button.classList.add('todo__item-btn', 'todo__item-btn--delete');
+  button.dataset.id = task.id;
+  button.addEventListener('click', deleteListItemCheckbox)
   li.append(button);
 
   return li;
 }
 
-function addListItemInput(event) {
+function addListItemCheckbox(event) {
   event.preventDefault();
 
   const form = event.target;
@@ -110,4 +112,11 @@ function addListItemInput(event) {
   }
 
   return false;
+}
+
+function deleteListItemCheckbox(event) {
+  const checkboxButton = event.target;
+  const taskId = Number(checkboxButton.dataset.id);
+  deleteTask(taskId);
+  checkboxButton.parentNode.remove();
 }

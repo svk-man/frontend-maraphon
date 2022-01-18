@@ -63,7 +63,7 @@ function changePriority(id, priority) {
 }
 
 export function generateId() {
-  return tasks.length > 1 ? tasks[tasks.length - 1].id + 1 : 0;
+  return tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : 0;
 }
 
 export function addTask(name, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
@@ -89,7 +89,7 @@ export function getTask(id) {
   }));
 }
 
-function deleteTask(id) {
+export function deleteTask(id) {
   tasks = tasks.filter(function(element) {
     return element.id !== id;
   });
