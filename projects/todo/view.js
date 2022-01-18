@@ -22,11 +22,11 @@ function clearLists() {
   UI_ELEMENTS.highList.textContent = '';
   UI_ELEMENTS.lowList.textContent = '';
 
-  UI_ELEMENTS.highList.append(createListItemInput('Добавить важных дел'));
-  UI_ELEMENTS.lowList.append(createListItemInput());
+  UI_ELEMENTS.highList.append(createListItemInput('Add important task'));
+  UI_ELEMENTS.lowList.append(createListItemInput('Add task'));
 }
 
-function createListItemInput(placeholder = 'Добавить дел') {
+function createListItemInput(placeholder) {
   const li = document.createElement('li');
   li.classList.add('todo__item');
 
