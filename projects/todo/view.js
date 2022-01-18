@@ -1,3 +1,5 @@
+import { tasks, PRIORITIES, STATUSES, addTask, getTask } from "./to do.js";
+
 export const UI_ELEMENTS = {
   highList: document.querySelectorAll('.todo__list')[0],
   lowList: document.querySelectorAll('.todo__list')[1],
@@ -7,18 +9,7 @@ export const UI_ELEMENTS = {
   inputs: document.querySelectorAll('.todo__item-input'),
 };
 
-const PRIORITIES = {
-  LOW: 'LOW',
-  HIGH: 'HIGH',
-}
-
-const STATUSES = {
-  TO_DO: 'To Do',
-  IN_PROGRESS: 'In Progress',
-  DONE: 'DONE',
-}
-
-export function showTodoList(tasks) {
+export function showTodoList() {
   clearLists();
 
   tasks.forEach(task => {
@@ -43,15 +34,24 @@ function createListItemInput(placeholder = 'Добавить дел') {
   const li = document.createElement('li');
   li.classList.add('todo__item');
 
-  const input = document.createElement('input');
-  input.classList.add('todo__item-input');
-  input.type = 'text';
-  input.placeholder = placeholder;
-  li.append(input);
+  const form = document.createElement('form');
+  form.classList.add('todo__item-form');
 
-  const button = document.createElement('button');
-  button.classList.add('todo__item-btn', 'todo__item-btn--add');
-  li.append(button);
+  const inputText = document.createElement('input');
+  inputText.classList.add('todo__item-input');
+  inputText.type = 'text';
+  inputText.placeholder = placeholder;
+  form.addEventListener('submit', addListItemInput);
+
+  form.append(inputText);
+
+  const inputSubmit = document.createElement('input');
+  inputSubmit.classList.add('todo__item-btn', 'todo__item-btn--add');
+  inputSubmit.type = 'submit';
+  inputSubmit.value = '';
+  form.append(inputSubmit);
+
+  li.append(form);
 
   return li;
 }
@@ -85,4 +85,29 @@ function createListItemCheckbox(task) {
   li.append(button);
 
   return li;
+}
+
+function addListItemInput(event) {
+  event.preventDefault();
+
+  const form = event.target;
+  const taskName = form.children[0].value;
+
+  if (taskName.trim()) {
+    const isHighListForm = UI_ELEMENTS.highList.contains(form);
+    const taskPriority = isHighListForm ? PRIORITIES.HIGH : PRIORITIES.LOW;
+
+    const taskId = addTask(taskName, STATUSES.TO_DO, taskPriority);
+    const isTaskAdded = taskId !== -1;
+    if (isTaskAdded) {
+      const li = createListItemCheckbox(getTask(taskId));
+      if (isHighListForm) {
+        UI_ELEMENTS.highList.append(li);
+      } else {
+        UI_ELEMENTS.lowList.append(li);
+      }
+    }
+  }
+
+  return false;
 }
