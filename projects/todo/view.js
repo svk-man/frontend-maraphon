@@ -106,7 +106,7 @@ function addListItemCheckbox(event) {
         UI_ELEMENTS.lowList.append(li);
       }
 
-      form.children[0].value = '';
+      form.reset();
     }
   }
 
