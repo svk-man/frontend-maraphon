@@ -1,22 +1,37 @@
 const UI_ELEMENTS = {
   form: document.querySelector('.form'),
-  output: document.querySelector('.output'),
+  outputName: document.querySelector('.output-name'),
+  outputNation: document.querySelector('.output-nation'),
 };
 
 UI_ELEMENTS.form.addEventListener('submit', function(event) {
   event.preventDefault();
 
+  const SERVER_URL = {
+    name: 'https://api.genderize.io',
+    nation: 'https://api.nationalize.io',
+  };
+
   const nameField = this.children[0];
   const name = nameField.value;
-  const serverUrl = 'https://api.genderize.io';
 
   if (name) {
-    const url = `${serverUrl}?name=${name}`;
+    const URL = {
+      name: `${SERVER_URL.name}?name=${name}`,
+      nation: `${SERVER_URL.nation}?name=${name}`,
+    }
   
-    fetch(url)
+    fetch(URL.name)
     .then(response => response.json())
     .then(info => {
-      UI_ELEMENTS.output.textContent = `${name} is ${info['gender']}`;
+      UI_ELEMENTS.outputName.textContent = `${name} is ${info['gender']}`;
+    });
+
+    fetch(URL.nation)
+    .then(response => response.json())
+    .then(info => {
+      const countries = info['country'].map(country => country['country_id']).join(', ');
+      UI_ELEMENTS.outputNation.textContent = `Probable nationality: ${countries}`;
     });
   }
 });
