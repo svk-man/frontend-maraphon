@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="weather-app">
+    <form class="weather-app__form">
+      <input class="weather-app__input" type="text" placeholder="Aktobe">
+      <input class="weather-app__submit" type="submit" value="">
+    </form>
+    <div class="weather-app__content">
+      <div class="weather-app__weather weather">
+        <div class="weather__item weather-now">
+          <p class="weather-now__temperature">14</p>
+          <p class="weather-now__city">Aktobe</p>
+          <button class="weather-now__favourite-btn"></button>
+        </div>
+        <div class="weather__item weather-details hidden">
+          <p class="weather-details__title">Aktobe</p>
+          <ul class="weather-details__list">
+            <li class="weather-details__item">Temperature: <span class="weather-details__item-degree">14</span></li>
+            <li class="weather-details__item">Feels like: <span class="weather-details__item-degree">10</span></li>
+            <li class="weather-details__item">Weather: Clouds</li>
+            <li class="weather-details__item">Sunrise: 03:21</li>
+            <li class="weather-details__item">Sunset: 18:54</li>
+          </ul>
+        </div>
+        <div class="weather__item weather-forecast hidden">
+
+        </div>
+        <div class="weather-app__weather-tabs">
+          <div class="weather-app__weather-tab weather-app__weather-tab--active">Now</div>
+          <div class="weather-app__weather-tab">Details</div>
+          <div class="weather-app__weather-tab">Forecast</div>
+        </div>
+      </div>
+      <div class="weather-app__locations weather-locations">
+        <p class="weather-locations__title">Added Locations:</p>
+        <ul class="weather-locations__list">
+          <li class="weather-locations__item">Amur</li>
+          <li class="weather-locations__item">Samara</li>
+          <li class="weather-locations__item">Bali</li>
+          <li class="weather-locations__item">Dane</li>
+          <li class="weather-locations__item">Kilo</li>
+          <li class="weather-locations__item">Nur-Sultan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
