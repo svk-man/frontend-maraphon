@@ -245,6 +245,7 @@ body {
 }
 
 .weather-favourite-cities__item {
+  position: relative;
   padding: 7px 0;
   transition: .5s;
 }
@@ -252,4 +253,27 @@ body {
 .weather-favourite-cities__item:hover {
   color: #174ea6;
   cursor: pointer;
+}
+
+.weather-favourite-cities__item-remove-button {
+  position: absolute;
+  top: 7px;
+  right: 0;
+  display: none;
+  width: 45px;
+  height: 30px;
+  border: none;
+  outline: none;
+  background: url('./assets/svg/delete.svg') no-repeat center;
+  background-size: contain;
+  transition: .5s;
+}
+
+.weather-favourite-cities__item-remove-button:hover {
+  cursor: pointer;
+  filter: invert(24%) sepia(61%) saturate(1985%) hue-rotate(200deg) brightness(91%) contrast(96%);
+}
+
+.weather-favourite-cities__item:hover .weather-favourite-cities__item-remove-button {
+  display: block;
 }

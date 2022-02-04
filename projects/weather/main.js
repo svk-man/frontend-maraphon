@@ -12,6 +12,7 @@ clearWeatherFavouriteCities();
 UI_ELEMENTS.WEATHER_FORM.addEventListener('submit', showCityWeatherHandler);
 UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.addEventListener('click', changeFavouriteCityHandler);
 UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.addEventListener('click', showFavouriteCityHandler);
+UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.addEventListener('click', removeFavouriteCityHandler);
 
 function showCityWeatherHandler(event) {
   event.preventDefault();
@@ -67,39 +68,56 @@ function getCityWeatherInfo(cityName) {
 function changeFavouriteCityHandler(event) {
   const favouriteCityButton = event.target;
   const cityName = favouriteCityButton.dataset[DATASET_FAVOURITE_CITY];
-  const isFavouriteCityExists = favouriteCityButton.classList.contains('weather-now__favourite-btn--active');
+  const isFavouriteCityButtonActive = favouriteCityButton.classList.contains('weather-now__favourite-btn--active');
   
-  if (!isFavouriteCityExists) {
-    addFavouriteCity(cityName);
-
-    const li = createWeatherFavouriteCitiesListItem(cityName);
-    UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.append(li);
-
-    if (isEmptyFavouriteCities()) {
-      openWeatherFavouriteCities();
-    }
+  if (!isFavouriteCityButtonActive) {
+    addWeatherFavouriteCitiesListItem(cityName);
   } else {
-    removeFavouriteCity(cityName);
-
-    const li = document.querySelector(`li[data-favourite-city='${cityName}']`);
-    li.remove();
-
-    if (!isEmptyFavouriteCities()) {
-      clearWeatherFavouriteCities();
-    }
+    removeWeatherFavouriteCitiesListItem(cityName);
   }
-
-  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.toggle('weather-now__favourite-btn--active');
 
   printFavouriteCities();
 }
 
+function addWeatherFavouriteCitiesListItem(cityName) {
+  addFavouriteCity(cityName);
+
+  const li = createWeatherFavouriteCitiesListItem(cityName);
+  UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.append(li);
+
+  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
+
+  if (isEmptyFavouriteCities()) {
+    openWeatherFavouriteCities();
+  }
+}
+
+function removeWeatherFavouriteCitiesListItem(cityName) {
+  removeFavouriteCity(cityName);
+
+  const li = document.querySelector(`li[data-favourite-city='${cityName}']`);
+  li.remove();
+
+  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
+
+  if (!isEmptyFavouriteCities()) {
+    clearWeatherFavouriteCities();
+  }
+}
+
 function createWeatherFavouriteCitiesListItem(cityName) {
   const li = document.createElement('li');
-
   li.classList.add('weather-favourite-cities__item');
   li.dataset[DATASET_FAVOURITE_CITY] = cityName;
-  li.textContent = cityName;
+
+  const p = document.createElement('p');
+  p.classList.add('weather-favourite-cities__item-name');
+  p.textContent = cityName;
+
+  const button = document.createElement('button');
+  button.classList.add('weather-favourite-cities__item-remove-button');
+
+  li.append(p, button);
 
   return li;
 }
@@ -132,4 +150,15 @@ function clearWeatherFavouriteCities() {
 function openWeatherFavouriteCities() {
   UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_MESSAGE.classList.add('hidden');
   UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_CONTENT.classList.remove('hidden');
+}
+
+function removeFavouriteCityHandler(event) {
+  const removeButton = event.target;
+  const isRemoveButton = removeButton.classList.contains('weather-favourite-cities__item-remove-button');
+  if (isRemoveButton) {
+    const li = removeButton.parentElement;
+    const cityName = li.dataset[DATASET_FAVOURITE_CITY];
+
+    removeWeatherFavouriteCitiesListItem(cityName);
+  }
 }
