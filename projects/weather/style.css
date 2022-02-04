@@ -233,6 +233,7 @@ body {
   display: flex;
   flex-direction: column;
   list-style: none;
+  overflow-y: auto;
 }
 
 .weather-favourite-cities__list--center {
