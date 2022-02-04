@@ -70,17 +70,26 @@ body {
 }
 
 .weather__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: calc(100% - 43px);
   border-bottom: 1px solid #000000;
 }
 
-.weather-now {
+.weather-now__content {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 26px 17px 12px;
+  width: 100%;
+  height: 100%;
   background: url('assets/svg/cloud.svg') no-repeat center;
+}
+
+.weather-now__message {
+  text-align: center;
 }
 
 .weather-now__temperature {
@@ -117,6 +126,10 @@ body {
 .weather-now__favourite-btn:hover {
   background-image: url('assets/svg/heart-purple.svg');
   cursor: pointer;
+}
+
+.weather-now__favourite-btn--active {
+  background-image: url('assets/svg/heart-purple.svg');
 }
 
 .weather-details {
@@ -189,26 +202,54 @@ body {
   background-color: black;
 }
 
-.weather-app__locations {
+.weather-app__favourite-cities {
   width: 50%;
 }
 
-.weather-locations__title {
+.weather-favourite-cities {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-favourite-cities__title {
   padding: 33px 16px 6px;
   border-bottom: 1px solid black;
 }
 
-.weather-locations__list {
+.weather-favourite-cities__info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.weather-favourite-cities__content {
+  width: 100%;
+}
+
+.weather-favourite-cities__list {
   padding: 27px 16px;
+  height: 319px;
+  display: flex;
+  flex-direction: column;
   list-style: none;
 }
 
-.weather-locations__item {
+.weather-favourite-cities__list--center {
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-favourite-cities__message {
+  text-align: center;
+}
+
+.weather-favourite-cities__item {
   padding: 7px 0;
   transition: .5s;
 }
 
-.weather-locations__item:hover {
+.weather-favourite-cities__item:hover {
   color: #174ea6;
   cursor: pointer;
 }

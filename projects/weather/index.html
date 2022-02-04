@@ -19,9 +19,12 @@
     <div class="weather-app__content">
       <div class="weather-app__weather weather">
         <div class="weather__item weather-now">
-          <p class="weather-now__temperature">14</p>
-          <p class="weather-now__city">Aktobe</p>
-          <button class="weather-now__favourite-btn"></button>
+          <p class="weather-now__message ">City doesn't choose</p>
+          <div class="weather-now__content hidden">
+            <p class="weather-now__temperature">14</p>
+            <p class="weather-now__city">Aktobe</p>
+            <button class="weather-now__favourite-btn"></button>
+          </div>
         </div>
         <div class="weather__item weather-details hidden">
           <p class="weather-details__title">Aktobe</p>
@@ -42,19 +45,24 @@
           <div class="weather-app__weather-tab">Forecast</div>
         </div>
       </div>
-      <div class="weather-app__locations weather-locations">
-        <p class="weather-locations__title">Added Locations:</p>
-        <ul class="weather-locations__list">
-          <li class="weather-locations__item">Amur</li>
-          <li class="weather-locations__item">Samara</li>
-          <li class="weather-locations__item">Bali</li>
-          <li class="weather-locations__item">Dane</li>
-          <li class="weather-locations__item">Kilo</li>
-          <li class="weather-locations__item">Nur-Sultan</li>
-        </ul>
+      <div class="weather-app__favourite-cities weather-favourite-cities">
+        <p class="weather-favourite-cities__title">Added Locations:</p>
+        <div class="weather-favourite-cities__info">
+          <p class="weather-favourite-cities__message">Favourite cities don't choose</p>
+          <div class="weather-favourite-cities__content hidden">
+            <ul class="weather-favourite-cities__list">
+              <li class="weather-favourite-cities__item">Amur</li>
+              <li class="weather-favourite-cities__item">Samara</li>
+              <li class="weather-favourite-cities__item">Bali</li>
+              <li class="weather-favourite-cities__item">Dane</li>
+              <li class="weather-favourite-cities__item">Kilo</li>
+              <li class="weather-favourite-cities__item">Nur-Sultan</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
 </body>
 </html>
