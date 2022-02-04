@@ -11,7 +11,7 @@ clearWeatherFavouriteCities();
 
 UI_ELEMENTS.WEATHER_FORM.addEventListener('submit', showCityWeatherHandler);
 UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.addEventListener('click', changeFavouriteCityHandler);
-UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.addEventListener('click', showFavouriteCityHandler);
+UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.addEventListener('click', showFavouriteCityWeatherHandler);
 UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.addEventListener('click', removeFavouriteCityHandler);
 
 function showCityWeatherHandler(event) {
@@ -38,6 +38,8 @@ function showCityWeather(cityName) {
         openWeatherNow();
       })
       .catch(error => alert(ERROR_MESSAGE + error.message));
+  } else {
+    clearWeatherNow();
   }
 }
 
@@ -122,7 +124,7 @@ function createWeatherFavouriteCitiesListItem(cityName) {
   return li;
 }
 
-function showFavouriteCityHandler(event) {
+function showFavouriteCityWeatherHandler(event) {
   const weatherFavouriteCitiesItemName = event.target;
   const isWeatherFavouriteCitiesItemName = weatherFavouriteCitiesItemName.classList.contains('weather-favourite-cities__item-name');
   if (isWeatherFavouriteCitiesItemName) {
