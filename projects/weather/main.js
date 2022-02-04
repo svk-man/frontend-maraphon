@@ -123,11 +123,11 @@ function createWeatherFavouriteCitiesListItem(cityName) {
 }
 
 function showFavouriteCityHandler(event) {
-  const weatherLocationItem = event.target;
-  const isWeatherLocationItem = weatherLocationItem.classList.contains('weather-favourite-cities__item');
-
-  if (isWeatherLocationItem) {
-    const cityName = weatherLocationItem.dataset[DATASET_FAVOURITE_CITY];
+  const weatherFavouriteCitiesItemName = event.target;
+  const isWeatherFavouriteCitiesItemName = weatherFavouriteCitiesItemName.classList.contains('weather-favourite-cities__item-name');
+  if (isWeatherFavouriteCitiesItemName) {
+    const weatherFavouriteCitiesItem = weatherFavouriteCitiesItemName.parentElement;
+    const cityName = weatherFavouriteCitiesItem.dataset[DATASET_FAVOURITE_CITY];
     showCityWeather(cityName);
   }
 }
