@@ -32,3 +32,7 @@ const fruits = new Storage('fruits');
 
 fruits.set(['apple', 'raspberry', 'pear', 'pineapple', 'mango']);
 console.log('get fruits: ', fruits.get().split(','));
+
+const user = new Storage('user');
+user.set(JSON.stringify({name: 'Egor', age: '35'}));
+console.log('get user: ', JSON.parse(user.get()));
