@@ -1,7 +1,32 @@
+export const STORAGE_TYPES = {
+  LOCAL: 'localStorage',
+  SESSION: 'sessionStorage'
+}
+
+const OPTIONS_PROPERTIES = {
+  storageType: 'storageType',
+  defaultValue: 'defaultValue',
+}
+
 export class Storage {
-  constructor(key, options = { 'storageType': 'localStorage' }) {
+  constructor(key, options = {
+    [OPTIONS_PROPERTIES.storageType]: STORAGE_TYPES.LOCAL,
+    [OPTIONS_PROPERTIES.defaultValue]: null
+  }) {
     this.key = key;
+
     this.options = options;
+
+    const isValidStorageType = options[OPTIONS_PROPERTIES.storageType] === STORAGE_TYPES.LOCAL
+      || options[OPTIONS_PROPERTIES.storageType] === STORAGE_TYPES.SESSION;
+    if (!isValidStorageType) {
+      this.options[OPTIONS_PROPERTIES.storageType] = STORAGE_TYPES.LOCAL;
+    }
+
+    const isValidDefaultValue = options[OPTIONS_PROPERTIES.defaultValue] !== null;
+    if (isValidDefaultValue) {
+      this.set(options[OPTIONS_PROPERTIES.defaultValue]);
+    }
   }
 
   get() {
@@ -22,14 +47,14 @@ export class Storage {
   }
 
   getStorage() {
-    return window[this.options['storageType']];
-  };
+    return window[this.options[OPTIONS_PROPERTIES.storageType]];
+  }
 
   isLocalStorage() {
-    return window[this.options['storageType']] === localStorage;
+    return this.getStorage() === localStorage;
   }
 
   isSessionStorage() {
-    return window[this.options['storageType']] === sessionStorage;
+    return this.getStorage() === sessionStorage;
   }
 }

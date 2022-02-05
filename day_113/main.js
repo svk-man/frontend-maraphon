@@ -1,9 +1,9 @@
-import { Storage } from "./storage.js";
+import { Storage, STORAGE_TYPES } from "./storage.js";
 
 // Basic operations
 const name = new Storage('name');
 
-console.log('LocalStorage: ', name.isLocalStorage(), 'SessionStorage', name.isSessionStorage());
+console.log(`${STORAGE_TYPES.LOCAL}: `, name.isLocalStorage(), `${STORAGE_TYPES.SESSION}: `, name.isSessionStorage());
 
 console.log('clear name');
 name.clear();
@@ -42,7 +42,13 @@ console.log('get user: ', JSON.parse(user.get()));
 console.log('\n');
 
 // Use SessionStorage
-const films = new Storage('films', {storageType: 'sessionStorage'});
+const films = new Storage('films', { storageType: STORAGE_TYPES.SESSION });
 films.set(['Moonfall', 'Death on the Nile', 'Uncharted', 'The Batman', 'The Lost City']);
-console.log('SessionStorage: ', films.isSessionStorage(), 'LocalStorage: ', films.isLocalStorage());
+console.log(`${STORAGE_TYPES.SESSION}: `, films.isSessionStorage(), `${STORAGE_TYPES.LOCAL}: `, films.isLocalStorage());
 console.log('get films: ', films.get().split(','));
+
+console.log('\n');
+
+// Add default value
+const age = new Storage('frontend marafon day', { 'defaultValue': 113 });
+console.log('get frontend marafon day: ', age.get());
