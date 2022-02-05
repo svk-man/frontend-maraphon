@@ -1,29 +1,31 @@
 import { Storage } from "./storage.js";
 
 // Basic operations
-const names = new Storage('names');
+const name = new Storage('name');
 
-console.log('clear');
-names.clear();
+console.log('LocalStorage: ', name.isLocalStorage(), 'SessionStorage', name.isSessionStorage());
 
-console.log('get: ', names.get());
+console.log('clear name');
+name.clear();
 
-console.log('set');
-names.set('Stefan');
+console.log('get name: ', name.get());
 
-console.log('get: ', names.get());
+console.log('set name Stefan');
+name.set('Stefan');
 
-console.log('clear');
-names.clear();
+console.log('get name: ', name.get());
 
-console.log('get: ', names.get());
+console.log('clear name');
+name.clear();
 
-console.log('isEmpty: ', names.isEmpty());
+console.log('get name: ', name.get());
 
-console.log('set');
-names.set('Joseph');
+console.log('isEmpty: ', name.isEmpty());
 
-console.log('isEmpty: ', names.isEmpty());
+console.log('set name Joseph');
+name.set('Joseph');
+
+console.log('isEmpty: ', name.isEmpty());
 
 console.log('\n');
 
@@ -36,3 +38,11 @@ console.log('get fruits: ', fruits.get().split(','));
 const user = new Storage('user');
 user.set(JSON.stringify({name: 'Egor', age: '35'}));
 console.log('get user: ', JSON.parse(user.get()));
+
+console.log('\n');
+
+// Use SessionStorage
+const films = new Storage('films', {storageType: 'sessionStorage'});
+films.set(['Moonfall', 'Death on the Nile', 'Uncharted', 'The Batman', 'The Lost City']);
+console.log('SessionStorage: ', films.isSessionStorage(), 'LocalStorage: ', films.isLocalStorage());
+console.log('get films: ', films.get().split(','));

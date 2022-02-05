@@ -1,22 +1,35 @@
 export class Storage {
-  constructor(key) {
+  constructor(key, options = { 'storageType': 'localStorage' }) {
     this.key = key;
+    this.options = options;
   }
 
   get() {
-    return localStorage.getItem(this.key);
+    return this.getStorage().getItem(this.key);
   }
 
   set(value) {
-    localStorage.setItem(this.key, value);
+    this.getStorage().setItem(this.key, value);
   }
 
   clear() {
-    localStorage.removeItem(this.key);
+    this.getStorage().removeItem(this.key);
   }
 
   isEmpty() {
-    const value = localStorage.getItem(this.key);
+    const value = this.getStorage().getItem(this.key);
     return value === null || value === undefined;
+  }
+
+  getStorage() {
+    return window[this.options['storageType']];
+  };
+
+  isLocalStorage() {
+    return window[this.options['storageType']] === localStorage;
+  }
+
+  isSessionStorage() {
+    return window[this.options['storageType']] === sessionStorage;
   }
 }
