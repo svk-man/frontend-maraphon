@@ -19,6 +19,8 @@ function showCityWeatherHandler(event) {
 
   const cityName = UI_ELEMENTS.WEATHER_INPUT.value;
   showCityWeather(cityName);
+
+  UI_ELEMENTS.WEATHER_FORM.reset();
 }
 
 function showCityWeather(cityName) {
