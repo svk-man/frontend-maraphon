@@ -12,7 +12,9 @@ export const UI_ELEMENTS = {
   'WEATHER_FAVOURITE_CITIES_CONTENT': document.querySelector('.weather-favourite-cities__content'),
   'WEATHER_FAVOURITE_CITIES_LIST': document.querySelector('.weather-favourite-cities__list'),
   'WEATHER_DETAILS': document.querySelector('.weather-details'),
+  'WEATHER_DETAILS_TITLE': document.querySelector('.weather-details__title'),
+  'WEATHER_DETAILS_LIST': document.querySelector('.weather-details__list'),
   'WEATHER_FORECAST': document.querySelector('.weather-forecast'),
-  'WEATHER_TABS_PARENT': document.querySelector('.weather-app__weather-tabs'),
-  'WEATHER_TABS': Array.from(document.querySelectorAll('.weather-app__weather-tab')),
+  'WEATHER_TABS': document.querySelector('.weather-app__weather-tabs'),
+  'WEATHER_TAB_ITEMS': Array.from(document.querySelectorAll('.weather-app__weather-tab')),
 };

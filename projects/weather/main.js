@@ -9,7 +9,12 @@ const DATASET_FAVOURITE_CITY = 'favouriteCity';
 const CITY_PROPERTIES = {
   name: 'name',
   temperature: 'temperature',
+  feelsLike: 'feels like',
+  weather: 'weather',
   icon: 'icon',
+  sunrise: 'sunrise',
+  sunset: 'sunset',
+  details: 'details',
   isFavourite: 'is-favourite',
 }
 
@@ -22,7 +27,8 @@ clearWeatherFavouriteCities();
 
 if (!Storage.isEmptyCurrentCity()) {
   const currentCity = Storage.getCurrentCity();
-  renderCityWeather(currentCity);
+  renderCityWeatherNow(currentCity);
+  renderCityWeatherDetails(currentCity);
   openWeatherNow();
 }
 
@@ -51,7 +57,8 @@ function showCityWeather(cityName) {
   if (cityName) {
     getCityWeatherInfo(cityName)
       .then(cityWeatherInfo => {
-        renderCityWeather(cityWeatherInfo);
+        renderCityWeatherNow(cityWeatherInfo);
+        renderCityWeatherDetails(cityWeatherInfo);
         Storage.saveCurrentCity(cityWeatherInfo);
 
         openWeatherNow();
@@ -62,7 +69,7 @@ function showCityWeather(cityName) {
   }
 }
 
-function renderCityWeather(cityWeatherInfo) {
+function renderCityWeatherNow(cityWeatherInfo) {
   UI_ELEMENTS.WEATHER_NOW_CITY.textContent = cityWeatherInfo[CITY_PROPERTIES.name];
   UI_ELEMENTS.WEATHER_NOW_TEMPERATURE.textContent = Math.round(cityWeatherInfo[CITY_PROPERTIES.temperature]);
   UI_ELEMENTS.WEATHER_NOW_CONTENT.style.backgroundImage = `url('${CONFIG.SERVER_ICON_URL}${cityWeatherInfo[CITY_PROPERTIES.icon]}@2x.png')`;
@@ -83,6 +90,39 @@ function renderFavouriteCities(favouriteCities) {
   });
 }
 
+function renderCityWeatherDetails(cityWeatherInfo) {
+  const prepareDetailsItemKey = name => name[0].toUpperCase() + name.slice(1).toLowerCase();
+
+  UI_ELEMENTS.WEATHER_DETAILS_LIST.textContent = '';
+  UI_ELEMENTS.WEATHER_DETAILS_TITLE.textContent = cityWeatherInfo[CITY_PROPERTIES.name];
+
+  const detailsItems = cityWeatherInfo[CITY_PROPERTIES.details];
+  for (const detailsItemKey in detailsItems) {
+    const li = document.createElement('li');
+    li.classList.add('weather-details__item');
+    li.textContent = `${prepareDetailsItemKey(detailsItemKey)}: `;
+
+    switch(detailsItemKey) {
+      case CITY_PROPERTIES.temperature:
+      case CITY_PROPERTIES.feelsLike:
+        const span = document.createElement('span');
+        span.classList.add('weather-details__item-degree');
+        span.textContent = detailsItems[detailsItemKey];
+        li.append(span);
+        break;
+      case CITY_PROPERTIES.sunset:
+      case CITY_PROPERTIES.sunrise:
+          const date = new Date(detailsItems[detailsItemKey]);
+          li.textContent += `${date.getHours()}:${date.getMinutes()}`;
+        break;
+      default:
+        li.textContent += detailsItems[detailsItemKey];
+    }
+
+    UI_ELEMENTS.WEATHER_DETAILS_LIST.append(li);
+  }
+}
+
 function getCityWeatherInfo(cityName) {
   const url = `${CONFIG.SERVER_URL}?q=${cityName}&appid=${CONFIG.API_KEY}&units=metric`;
   return fetch(url)
@@ -94,15 +134,23 @@ function getCityWeatherInfo(cityName) {
       return response.json();
     })
     .then(cityWeatherInfo => {
-      function getIcon(cityWeatherInfo) {
-        return cityWeatherInfo.weather[cityWeatherInfo.weather.length - 1].icon;
-      }
+      const getIcon = cityWeatherInfo => cityWeatherInfo.weather[cityWeatherInfo.weather.length - 1].icon;
+      const getWeather = cityWeatherInfo => cityWeatherInfo.weather[cityWeatherInfo.weather.length - 1].main;
+      const getSunrise = cityWeatherInfo => cityWeatherInfo.sys.sunrise;
+      const getSunset = cityWeatherInfo => cityWeatherInfo.sys.sunset;
 
       return {
         [CITY_PROPERTIES.name]: cityWeatherInfo.name,
         [CITY_PROPERTIES.temperature]: cityWeatherInfo.main.temp,
         [CITY_PROPERTIES.icon]: getIcon(cityWeatherInfo),
         [CITY_PROPERTIES.isFavourite]: Favourite.isFavouriteCityExists(cityWeatherInfo.name),
+        [CITY_PROPERTIES.details]: {
+          [CITY_PROPERTIES.temperature]: cityWeatherInfo.main.temp,
+          [CITY_PROPERTIES.feelsLike]: cityWeatherInfo.main['feels_like'],
+          [CITY_PROPERTIES.weather]: getWeather(cityWeatherInfo),
+          [CITY_PROPERTIES.sunrise]: getSunrise(cityWeatherInfo),
+          [CITY_PROPERTIES.sunset]: getSunset(cityWeatherInfo),
+        },
       };
     })
     .catch(error => alert(ERROR_MESSAGE + error.message));

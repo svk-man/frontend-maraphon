@@ -2,7 +2,7 @@ import { UI_ELEMENTS } from "./view.js";
 
 const DATASET_WEATHER_TAB = 'weatherTab';
 
-UI_ELEMENTS.WEATHER_TABS_PARENT.addEventListener('click', changeWeatherTabHandler);
+UI_ELEMENTS.WEATHER_TABS.addEventListener('click', changeWeatherTabHandler);
 
 function changeWeatherTabHandler(event) {
   const weatherTab = event.target;
@@ -18,7 +18,7 @@ function changeWeatherTabHandler(event) {
       }
     });
 
-    UI_ELEMENTS.WEATHER_TABS.forEach(weatherTab => {
+    UI_ELEMENTS.WEATHER_TAB_ITEMS.forEach(weatherTab => {
       weatherTab.classList.remove('weather-app__weather-tab--active');
     });
 
