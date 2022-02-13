@@ -12,6 +12,9 @@ const CITY_PROPERTIES = {
   isFavourite: 'is-favourite',
 }
 
+/*Storage.clearCurrentCity();
+Storage.clearFavouriteCities();*/
+
 UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.textContent = '';
 clearWeatherNow();
 clearWeatherFavouriteCities();
@@ -23,7 +26,7 @@ if (!Storage.isEmptyCurrentCity()) {
 }
 
 if (!Storage.isEmptyFavouriteCities()) {
-  const favouriteCities = Storage.getFavouriteCities();
+  const favouriteCities = Storage.getFavouriteCities().split(',');
   renderFavouriteCities(favouriteCities);
   openWeatherFavouriteCities();
   Favourite.saveFavouriteCities(favouriteCities);
@@ -137,11 +140,19 @@ function addWeatherFavouriteCitiesListItem(cityName) {
 
 function removeWeatherFavouriteCitiesListItem(cityName) {
   Favourite.removeFavouriteCity(cityName);
+  
+  const currentCity = Storage.getCurrentCity();
+  if (currentCity[CITY_PROPERTIES.name] === cityName) {
+    currentCity[CITY_PROPERTIES.isFavourite] = false;
+    Storage.saveCurrentCity(currentCity);
+  }
 
   const li = document.querySelector(`li[data-favourite-city='${cityName}']`);
   li.remove();
 
-  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
+  if (UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] === cityName) {
+    UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
+  }
 
   if (!Favourite.isEmptyFavouriteCities()) {
     clearWeatherFavouriteCities();
@@ -203,5 +214,6 @@ function removeFavouriteCityHandler(event) {
     const cityName = li.dataset[DATASET_FAVOURITE_CITY];
 
     removeWeatherFavouriteCitiesListItem(cityName);
+    Storage.saveFavouriteCities(Favourite.getFavouriteCities());
   }
 }
