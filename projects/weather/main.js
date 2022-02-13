@@ -1,4 +1,5 @@
 import { CONFIG } from "./js/config.js";
+import { getCurrentCity, saveCurrentCity } from './js/storage.js';
 import { addFavouriteCity, isFavouriteCityExists, removeFavouriteCity, printFavouriteCities, isEmptyFavouriteCities } from "./js/favourite.js";
 import { UI_ELEMENTS } from "./js/view.js";
 
@@ -8,6 +9,12 @@ const DATASET_FAVOURITE_CITY = 'favouriteCity';
 UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.textContent = '';
 clearWeatherNow();
 clearWeatherFavouriteCities();
+
+const currentCity = getCurrentCity();
+if (currentCity) {
+  renderCityWeather(currentCity);
+  openWeatherNow();
+}
 
 UI_ELEMENTS.WEATHER_FORM.addEventListener('submit', showCityWeatherHandler);
 UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.addEventListener('click', changeFavouriteCityHandler);
@@ -27,21 +34,26 @@ function showCityWeather(cityName) {
   if (cityName) {
     getCityWeatherInfo(cityName)
       .then(cityWeatherInfo => {
-        UI_ELEMENTS.WEATHER_NOW_CITY.textContent = cityWeatherInfo['name'];
-        UI_ELEMENTS.WEATHER_NOW_TEMPERATURE.textContent = Math.round(cityWeatherInfo['temperature']);
-        UI_ELEMENTS.WEATHER_NOW_CONTENT.style.backgroundImage = `url('${CONFIG.SERVER_ICON_URL}${cityWeatherInfo['icon']}@2x.png')`;
-        UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] = cityWeatherInfo['name'];
-        if (!isFavouriteCityExists(cityName)) {
-          UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
-        } else {
-          UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
-        }
+        renderCityWeather(cityWeatherInfo);
+        saveCurrentCity(cityWeatherInfo);
 
         openWeatherNow();
       })
       .catch(error => alert(ERROR_MESSAGE + error.message));
   } else {
     clearWeatherNow();
+  }
+}
+
+function renderCityWeather(cityWeatherInfo) {
+  UI_ELEMENTS.WEATHER_NOW_CITY.textContent = cityWeatherInfo['name'];
+  UI_ELEMENTS.WEATHER_NOW_TEMPERATURE.textContent = Math.round(cityWeatherInfo['temperature']);
+  UI_ELEMENTS.WEATHER_NOW_CONTENT.style.backgroundImage = `url('${CONFIG.SERVER_ICON_URL}${cityWeatherInfo['icon']}@2x.png')`;
+  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] = cityWeatherInfo['name'];
+  if (!cityWeatherInfo['is-favourite']) {
+    UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
+  } else {
+    UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
   }
 }
 
@@ -64,6 +76,7 @@ function getCityWeatherInfo(cityName) {
         'name': cityWeatherInfo.name,
         'temperature': cityWeatherInfo.main.temp,
         'icon': getIcon(cityWeatherInfo),
+        'is-favorite': isFavouriteCityExists(cityWeatherInfo.name),
       };
     })
     .catch(error => alert(ERROR_MESSAGE + error.message));
