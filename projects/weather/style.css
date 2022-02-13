@@ -134,6 +134,7 @@ body {
 
 .weather-details {
   padding: 33px 15px;
+  flex-direction: column;
 }
 
 .weather-details__title {

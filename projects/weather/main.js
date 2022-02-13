@@ -1,3 +1,4 @@
+import * as Tabs from './js/tabs.js';
 import { CONFIG } from "./js/config.js";
 import * as Storage from './js/storage.js';
 import * as Favourite from "./js/favourite.js";
