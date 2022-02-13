@@ -1,19 +1,32 @@
 import { CONFIG } from "./js/config.js";
-import { getCurrentCity, saveCurrentCity } from './js/storage.js';
-import { addFavouriteCity, isFavouriteCityExists, removeFavouriteCity, printFavouriteCities, isEmptyFavouriteCities } from "./js/favourite.js";
+import * as Storage from './js/storage.js';
+import * as Favourite from "./js/favourite.js";
 import { UI_ELEMENTS } from "./js/view.js";
 
 const ERROR_MESSAGE = 'Упс! Что-то пошло не так: ';
 const DATASET_FAVOURITE_CITY = 'favouriteCity';
+const CITY_PROPERTIES = {
+  name: 'name',
+  temperature: 'temperature',
+  icon: 'icon',
+  isFavourite: 'is-favourite',
+}
 
 UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.textContent = '';
 clearWeatherNow();
 clearWeatherFavouriteCities();
 
-const currentCity = getCurrentCity();
-if (currentCity) {
+if (!Storage.isEmptyCurrentCity()) {
+  const currentCity = Storage.getCurrentCity();
   renderCityWeather(currentCity);
   openWeatherNow();
+}
+
+if (!Storage.isEmptyFavouriteCities()) {
+  const favouriteCities = Storage.getFavouriteCities();
+  renderFavouriteCities(favouriteCities);
+  openWeatherFavouriteCities();
+  Favourite.saveFavouriteCities(favouriteCities);
 }
 
 UI_ELEMENTS.WEATHER_FORM.addEventListener('submit', showCityWeatherHandler);
@@ -35,7 +48,7 @@ function showCityWeather(cityName) {
     getCityWeatherInfo(cityName)
       .then(cityWeatherInfo => {
         renderCityWeather(cityWeatherInfo);
-        saveCurrentCity(cityWeatherInfo);
+        Storage.saveCurrentCity(cityWeatherInfo);
 
         openWeatherNow();
       })
@@ -46,15 +59,24 @@ function showCityWeather(cityName) {
 }
 
 function renderCityWeather(cityWeatherInfo) {
-  UI_ELEMENTS.WEATHER_NOW_CITY.textContent = cityWeatherInfo['name'];
-  UI_ELEMENTS.WEATHER_NOW_TEMPERATURE.textContent = Math.round(cityWeatherInfo['temperature']);
-  UI_ELEMENTS.WEATHER_NOW_CONTENT.style.backgroundImage = `url('${CONFIG.SERVER_ICON_URL}${cityWeatherInfo['icon']}@2x.png')`;
-  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] = cityWeatherInfo['name'];
-  if (!cityWeatherInfo['is-favourite']) {
+  UI_ELEMENTS.WEATHER_NOW_CITY.textContent = cityWeatherInfo[CITY_PROPERTIES.name];
+  UI_ELEMENTS.WEATHER_NOW_TEMPERATURE.textContent = Math.round(cityWeatherInfo[CITY_PROPERTIES.temperature]);
+  UI_ELEMENTS.WEATHER_NOW_CONTENT.style.backgroundImage = `url('${CONFIG.SERVER_ICON_URL}${cityWeatherInfo[CITY_PROPERTIES.icon]}@2x.png')`;
+  UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] = cityWeatherInfo[CITY_PROPERTIES.name];
+  if (!cityWeatherInfo[CITY_PROPERTIES.isFavourite]) {
     UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
   } else {
     UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
   }
+}
+
+function renderFavouriteCities(favouriteCities) {
+  UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.textContent = '';
+
+  favouriteCities.forEach(cityName => {
+    const li = createWeatherFavouriteCitiesListItem(cityName);
+    UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.append(li);
+  });
 }
 
 function getCityWeatherInfo(cityName) {
@@ -73,10 +95,10 @@ function getCityWeatherInfo(cityName) {
       }
 
       return {
-        'name': cityWeatherInfo.name,
-        'temperature': cityWeatherInfo.main.temp,
-        'icon': getIcon(cityWeatherInfo),
-        'is-favorite': isFavouriteCityExists(cityWeatherInfo.name),
+        [CITY_PROPERTIES.name]: cityWeatherInfo.name,
+        [CITY_PROPERTIES.temperature]: cityWeatherInfo.main.temp,
+        [CITY_PROPERTIES.icon]: getIcon(cityWeatherInfo),
+        [CITY_PROPERTIES.isFavourite]: Favourite.isFavouriteCityExists(cityWeatherInfo.name),
       };
     })
     .catch(error => alert(ERROR_MESSAGE + error.message));
@@ -87,37 +109,41 @@ function changeFavouriteCityHandler(event) {
   const cityName = favouriteCityButton.dataset[DATASET_FAVOURITE_CITY];
   const isFavouriteCityButtonActive = favouriteCityButton.classList.contains('weather-now__favourite-btn--active');
   
+  const currentCity = Storage.getCurrentCity();
   if (!isFavouriteCityButtonActive) {
     addWeatherFavouriteCitiesListItem(cityName);
+    currentCity[CITY_PROPERTIES.isFavourite] = true;
   } else {
     removeWeatherFavouriteCitiesListItem(cityName);
+    currentCity[CITY_PROPERTIES.isFavourite] = false;
   }
 
-  printFavouriteCities();
+  Storage.saveCurrentCity(currentCity);
+  Storage.saveFavouriteCities(Favourite.getFavouriteCities());
 }
 
 function addWeatherFavouriteCitiesListItem(cityName) {
-  addFavouriteCity(cityName);
+  Favourite.addFavouriteCity(cityName);
 
   const li = createWeatherFavouriteCitiesListItem(cityName);
   UI_ELEMENTS.WEATHER_FAVOURITE_CITIES_LIST.append(li);
 
   UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
 
-  if (isEmptyFavouriteCities()) {
+  if (Favourite.isEmptyFavouriteCities()) {
     openWeatherFavouriteCities();
   }
 }
 
 function removeWeatherFavouriteCitiesListItem(cityName) {
-  removeFavouriteCity(cityName);
+  Favourite.removeFavouriteCity(cityName);
 
   const li = document.querySelector(`li[data-favourite-city='${cityName}']`);
   li.remove();
 
   UI_ELEMENTS.WEATHER_NOW_FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
 
-  if (!isEmptyFavouriteCities()) {
+  if (!Favourite.isEmptyFavouriteCities()) {
     clearWeatherFavouriteCities();
   }
 }

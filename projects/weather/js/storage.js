@@ -6,7 +6,12 @@ export function saveFavouriteCities(favouriteCities) {
 }
 
 export function getFavouriteCities() {
-  return localStorage.getItem(FAVOURITE_CITIES_KEY);
+  return localStorage.getItem(FAVOURITE_CITIES_KEY).split(',');
+}
+
+export function isEmptyFavouriteCities() {
+  const favouriteCities = getFavouriteCities();
+  return favouriteCities === null || favouriteCities === undefined;
 }
 
 export function saveCurrentCity(currentCity) {
@@ -15,4 +20,9 @@ export function saveCurrentCity(currentCity) {
 
 export function getCurrentCity() {
   return JSON.parse(localStorage.getItem(CURRENT_CITY_KEY));
+}
+
+export function isEmptyCurrentCity() {
+  const currentCity = getCurrentCity();
+  return currentCity === null || currentCity === undefined;
 }
