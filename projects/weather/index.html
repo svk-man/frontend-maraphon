@@ -21,7 +21,7 @@
       </form>
       <div class="weather-app__content">
         <div class="weather-app__weather weather">
-          <div class="weather__item weather-now">
+          <div class="weather__item weather-now hidden">
             <p class="weather-now__message">City doesn't choose</p>
             <div class="weather-now__content hidden">
               <p class="weather-now__temperature">14</p>
@@ -44,7 +44,59 @@
               <li class="weather-details__item">Sunset: 18:54</li>
             </ul>
           </div>
-          <div class="weather__item weather-forecast hidden"></div>
+          <div class="weather__item weather-forecast">
+            <p class="weather-forecast__title">Aktobe</p>
+            <div class="weather-forecast__items">
+              <div class="weather-forecast__item">
+                <p class="weather-forecast__item-datetime">
+                  <span class="weather-forecast__item-date">17 May</span>
+                  <span class="weather-forecast__item-time">12:00</span>
+                </p>
+                <div class="weather-forecast__item-details">
+                  <ul class="weather-forecast__item-details-list">
+                    <li class="weather-forecast__item-details-item">Temperature: <span class="weather-forecast__item-details-item-degree">13</span></li>
+                    <li class="weather-forecast__item-details-item">Feels like: <span class="weather-forecast__item-details-item-degree">10</span></li>
+                  </ul>
+                  <div class="weather-forecast__item-details-condition">
+                    <p class="weather-forecast__item-details-condition-description">Rain</p>
+                    <img class="weather-forecast__item-details-condition-icon" src="./assets/svg/rain.svg" alt="Rain">
+                  </div>
+                </div>
+              </div>
+              <div class="weather-forecast__item">
+                <p class="weather-forecast__item-datetime">
+                  <span class="weather-forecast__item-date">17 May</span>
+                  <span class="weather-forecast__item-time">12:00</span>
+                </p>
+                <div class="weather-forecast__item-details">
+                  <ul class="weather-forecast__item-details-list">
+                    <li class="weather-forecast__item-details-item">Temperature: <span class="weather-forecast__item-details-item-degree">13</span></li>
+                    <li class="weather-forecast__item-details-item">Feels like: <span class="weather-forecast__item-details-item-degree">10</span></li>
+                  </ul>
+                  <div class="weather-forecast__item-details-condition">
+                    <p class="weather-forecast__item-details-condition-description">Rain</p>
+                    <img class="weather-forecast__item-details-condition-icon" src="./assets/svg/rain.svg" alt="Rain">
+                  </div>
+                </div>
+              </div>
+              <div class="weather-forecast__item">
+                <p class="weather-forecast__item-datetime">
+                  <span class="weather-forecast__item-date">17 May</span>
+                  <span class="weather-forecast__item-time">12:00</span>
+                </p>
+                <div class="weather-forecast__item-details">
+                  <ul class="weather-forecast__item-details-list">
+                    <li class="weather-forecast__item-details-item">Temperature: <span class="weather-forecast__item-details-item-degree">13</span></li>
+                    <li class="weather-forecast__item-details-item">Feels like: <span class="weather-forecast__item-details-item-degree">10</span></li>
+                  </ul>
+                  <div class="weather-forecast__item-details-condition">
+                    <p class="weather-forecast__item-details-condition-description">Rain</p>
+                    <img class="weather-forecast__item-details-condition-icon" src="./assets/svg/rain.svg" alt="Rain">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="weather-app__weather-tabs">
             <div class="weather-app__weather-tab weather-app__weather-tab--active" data-weather-tab="now">Now</div>
             <div class="weather-app__weather-tab" data-weather-tab="details">Details</div>

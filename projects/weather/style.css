@@ -135,6 +135,7 @@ body {
 .weather-details {
   padding: 33px 15px;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .weather-details__title {
@@ -170,7 +171,71 @@ body {
 }
 
 .weather-forecast {
-  
+  padding: 33px 15px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.weather-forecast__title {
+  margin-bottom: 7px;
+}
+
+.weather-forecast__items {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 9px;
+  overflow-y: auto;
+}
+
+.weather-forecast__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 38px;
+  width: 265px;
+  padding: 6px 13px 9px 8px;
+  border: 1px solid black;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.weather-forecast__item-datetime {
+  display: flex;
+  justify-content: space-between;
+}
+
+.weather-forecast__item-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.weather-forecast__item-details-item-degree {
+  position: relative;
+}
+
+.weather-forecast__item-details-item-degree::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  right: -8px;
+  display: block;
+  width: 4px;
+  height: 4px;
+  border: 1px solid black;
+  border-radius: 50%;
+}
+
+.weather-forecast__item-details-condition {
+  margin-bottom: -7px;
+  text-align: center;
+}
+
+.weather-forecast__item-details-condition-icon {
+  width: 31px;
+  height: 31px;
+  object-fit: cover;
 }
 
 .weather-app__weather-tabs {
