@@ -5,9 +5,44 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;1,300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="wrapper">
+    <div class="chat">
+      <div class="chat__panel">
+        <button class="btn chat__options-btn">Настройки</button>
+        <button class="btn chat__exit-btn">Выйти</button>
+      </div>
+      <div class="chat__content">
+        <div class="chat__message chat__message--sender chat__message--delivered">
+          <p class="chat__message-text">Я: Добрый день!</p>
+          <p class="chat__message-time">18:45</p>
+        </div>
+        <div class="chat__message chat__message--delivered">
+          <p class="chat__message-text">Собеседник мой: Добрый день!</p>
+          <p class="chat__message-time">18:45</p>
+        </div>
+        <div class="chat__message chat__message--delivered">
+          <p class="chat__message-text">Собеседник мой: А это второе и, кажется, оно очень 
+            длинное, чтобы поместиться на 
+            одной строке</p>
+          <p class="chat__message-time">18:45</p>
+        </div>
+        <div class="chat__message chat__message--sender">
+          <p class="chat__message-text">Я: Добрый день!</p>
+          <p class="chat__message-time">18:45</p>
+        </div>
+      </div>
+      <form class="chat__form" action="#">
+        <input class="chat__form-input" type="text" placeholder="сообщение..">
+        <input class="btn chat__form-submit" type="submit" value="->">
+      </form>
+    </div>
+  </div>
   <script src="index.js"></script>
 </body>
 </html>

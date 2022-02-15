@@ -1,0 +1,119 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-active: #0A95FF;
+  --color-message-time: #333333;
+  --color-message-sent: #F7F7F7;
+  --color-message-delivered: #E5E5E5;
+}
+
+body {
+  height: 100vh;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  line-height: 19px;
+  color: black;
+}
+
+.btn {
+  padding: 6px 8px;
+  border: 1px solid black;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  background-color: white;
+  transition: .3s;
+}
+
+.btn:hover {
+  border-color: var(--color-active);
+  color: white;
+  background-color: var(--color-active);
+  cursor: pointer;
+}
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat {
+  width: 320px;
+  height: 533px;
+  padding: 8px;
+  border: 1px solid black;
+}
+
+.chat__panel {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.chat__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  justify-content: flex-end;
+  min-height: 437px;
+  padding: 8px;
+  margin-bottom: 6px;
+  border: 1px solid black;
+}
+
+.chat__message {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 8px;
+  background-color: var(--color-message-sent);
+}
+
+.chat__message--sender {
+  align-self: flex-end;
+}
+
+.chat__message--delivered {
+  background-color: var(--color-message-delivered);
+}
+
+.chat__message-text {
+  margin-bottom: 4px;
+}
+
+.chat__message-time {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--color-message-time);
+  text-align: right;
+}
+
+.chat__form {
+  display: flex;
+  justify-content: space-between;
+  column-gap: 8px;
+}
+
+.chat__form-input {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid black;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.chat__form-input:focus {
+  outline: none;
+}
+
+.chat__form-input:hover {
+  border-color: var(--color-active);
+}
