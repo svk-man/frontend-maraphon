@@ -1,29 +1,22 @@
 import React from 'react';
 import Form from './Form';
 import Output from './Output';
+import { useState } from 'react';
 
-class GenderizeApp extends React.Component {
-  constructor(props) {
-    super(props);
+function GenderizeApp() {
+  const [outputText, setOutpuText] = useState('');
+  updateOutputText = updateOutputText.bind(this);
 
-    this.state = {outputText: ''};
-    this.updateOutputText = this.updateOutputText.bind(this);
+  function updateOutputText(nameInfo) {
+    setOutpuText(nameInfo['gender'] ? 'Gender: ' + nameInfo['gender'] : '');
   }
 
-  updateOutputText(nameInfo) {
-    this.setState({
-      outputText: (nameInfo['gender'] ? 'Gender: ' + nameInfo['gender'] : '')
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <Form updateOutputText={this.updateOutputText} />
-        <Output text={this.state.outputText} />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Form updateOutputText={updateOutputText} />
+      <Output text={outputText} />
+    </div>
+  );
 }
 
 export default GenderizeApp

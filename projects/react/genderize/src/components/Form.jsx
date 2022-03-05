@@ -2,44 +2,38 @@ import React from 'react';
 import Button from "./Button";
 import Input from "./Input";
 
-class Form extends React.Component {
-  constructor(props) {
-    super(props);
-    this.updateOutputText = props.updateOutputText;
+function Form(props) {
+  const updateOutputText = props.updateOutputText;
+  const URL = 'https://api.genderize.io?name=';
+  handleSubmit = handleSubmit.bind(this);
 
-    this.URL = 'https://api.genderize.io?name=';
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  function handleSubmit(event) {
+    event.preventDefault();
 
-  handleSubmit(e) {
-    e.preventDefault();
-
-    const form = e.target;
+    const form = event.target;
     const name = form.elements['name'].value;
     const isValidName = name.trim() !== '';
     if (isValidName) {
-      this.fetchNameInfo(name);
+      fetchNameInfo(name);
     } else {
-      this.updateOutputText({'gender': ''});
+      updateOutputText({'gender': ''});
     }
 
     form.reset();
   }
 
-  fetchNameInfo(name) {
-    fetch(this.URL + name)
+  function fetchNameInfo(name) {
+    fetch(URL + name)
       .then(response => response.json())
-      .then(this.updateOutputText);
+      .then(updateOutputText);
   }
 
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <Input name="name" />
-        <Button />
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input name="name" />
+      <Button />
+    </form>
+  );
 }
 
 export default Form;

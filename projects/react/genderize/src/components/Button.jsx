@@ -1,9 +1,7 @@
 import React from 'react';
 
-class Button extends React.Component {
-  render() {
-    return <input type="submit" value="Search name" />;
-  }
+function Button() {
+  return <input type="submit" value="Search name" />;
 }
 
 export default Button;
