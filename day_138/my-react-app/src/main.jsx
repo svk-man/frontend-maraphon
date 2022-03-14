@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const element = <h1>Мой первый заголовок</h1>
+const name = 'Иван-царевич';
+const element = <h1>Здравствуй, {name}!</h1>
 
 ReactDOM.render(
   element,
