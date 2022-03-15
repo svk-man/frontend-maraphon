@@ -25,12 +25,21 @@ function getGreeting(sex) {
   return <h1>Приветствую тебя, прелестная <a href={hero2.link} target='_blank'>{formatName(hero2)}</a>!</h1>
 }
 
-const element = (
-  <>{getGreeting(0)}
-  <p>Как твои дела?</p></>
-);
+function getCurrentTime() {
+  return new Date().toLocaleTimeString();
+}
 
-ReactDOM.render(
-  element,
-  document.getElementById('root')
-)
+function update() {
+  const element = (
+    <>{getGreeting(0)}
+    <p>Как твои дела?</p>
+    <p>Время сейчас такое: {getCurrentTime()}</p></>
+  );
+
+  ReactDOM.render(
+    element,
+    document.getElementById('root')
+  )
+}
+
+setInterval(update, 1000);
