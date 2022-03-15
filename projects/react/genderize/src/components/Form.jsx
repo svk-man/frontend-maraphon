@@ -5,32 +5,41 @@ import Input from "./Input";
 function Form(props) {
   const updateOutputText = props.updateOutputText;
   const URL = 'https://api.genderize.io?name=';
-  handleSubmit = handleSubmit.bind(this);
 
   function handleSubmit(event) {
     event.preventDefault();
 
     const form = event.target;
     const name = form.elements['name'].value;
-    const isValidName = name.trim() !== '';
-    if (isValidName) {
-      fetchNameInfo(name);
-    } else {
-      updateOutputText({'gender': ''});
-    }
-
+    showOutputText(name);
     form.reset();
   }
 
-  function fetchNameInfo(name) {
-    fetch(URL + name)
-      .then(response => response.json())
-      .then(updateOutputText);
+  async function showOutputText(name) {
+    const isValidName = name.trim() !== '';
+    let gender = '';
+    if (isValidName) {
+      const nameData = await getNameData(name);
+      gender = nameData['gender'];
+    }
+
+    updateOutputText({'gender': gender});
+  }
+
+  async function getNameData(name) {
+    try {
+      const getUrl = () => { return URL + name; };
+      const data = await fetch(getUrl());
+      const json = await data.json();
+      return json;
+    } catch(error) {
+      
+    }
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <Input name="name" />
+      <Input />
       <Button />
     </form>
   );

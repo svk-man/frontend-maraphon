@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 
-function Input(props) {
+function Input() {
   const [isNotValidValue, setIsNotValidValue] = useState(false);
 
-  handleChange = handleChange.bind(this);
-
   function handleChange(event) {
-    const input = event.target;
-    const inputValue = input.value;
-    setIsNotValidValue(inputValue !== '' && inputValue.trim().length <= 2);
+    const value = event.target.value;
+    const isNotValidValue = value !== '' && value.trim().length <= 2;
+    setIsNotValidValue(isNotValidValue);
   }
 
   return (
     <div>
-      <input type="text" placeholder="Name..." name={props.name} onChange={handleChange} />
+      <input type="text" placeholder="Name..." name="name" onChange={handleChange} />
       {isNotValidValue && <span>Error: Name length is too short</span>}
     </div>
   );
