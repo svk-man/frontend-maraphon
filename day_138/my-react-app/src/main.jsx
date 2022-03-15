@@ -34,15 +34,19 @@ function getCurrentTime() {
   return new Date().toLocaleTimeString();
 }
 
-function update() {
-  const element = (
-    <><Greeting sex="1" />
-    <p>Как твои дела?</p>
-    <Time /></>
+function App() {
+  return (
+    <div>
+      <Greeting sex="1" />
+      <Greeting sex="0" />
+      <Time />
+    </div>
   );
+}
 
+function update() {
   ReactDOM.render(
-    element,
+    <App />,
     document.getElementById('root')
   )
 }
