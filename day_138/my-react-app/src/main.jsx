@@ -17,7 +17,8 @@ function formatName(hero) {
   return hero.firstName + '-' + hero.lastName;
 }
 
-function getGreeting(sex) {
+function Greeting(props) {
+  const sex = props.sex;
   if (sex) {
     return <h1>Здравствуй, прекрасный <a href={hero1.link} target='_blank'>{formatName(hero1)}</a>!</h1>
   }
@@ -31,7 +32,7 @@ function getCurrentTime() {
 
 function update() {
   const element = (
-    <>{getGreeting(0)}
+    <><Greeting sex="1" />
     <p>Как твои дела?</p>
     <p>Время сейчас такое: {getCurrentTime()}</p></>
   );
