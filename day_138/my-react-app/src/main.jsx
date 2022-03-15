@@ -53,7 +53,6 @@ function Comment(props) {
 }
 
 function Avatar(props) {
-  console.log(props);
   return (
     <img
       src={props.user.avatarUrl}
