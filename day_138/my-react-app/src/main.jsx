@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const hero1 = {
@@ -26,12 +26,15 @@ function formatName(hero) {
   return hero.firstName + '-' + hero.lastName;
 }
 
-function Time() {
-  return <p>Время сейчас такое: {getCurrentTime()}</p>;
-}
+function Clock() {
+  const [date, setDate] = useState(new Date());
+  let timerId = null;
+  useEffect(() => {
+    timerId = setInterval(() => setDate(new Date()), 1000);
 
-function getCurrentTime() {
-  return formatDate(new Date());
+    return () => {  clearInterval(timerId) };
+  });
+  return <p>Время сейчас такое: {formatDate(date)}</p>;
 }
 
 function formatDate(date) {
@@ -85,7 +88,7 @@ function App() {
     <div>
       <Greeting sex="1" />
       <Greeting sex="0" />
-      <Time />
+      <Clock />
       <Comment
         author={comment.author}
         text={comment.text}
@@ -94,11 +97,7 @@ function App() {
   );
 }
 
-function update() {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-  )
-}
-
-setInterval(update, 1000);
+ReactDOM.render(
+  <App />,
+  document.getElementById('root')
+);
