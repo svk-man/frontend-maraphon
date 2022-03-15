@@ -31,7 +31,54 @@ function Time() {
 }
 
 function getCurrentTime() {
-  return new Date().toLocaleTimeString();
+  return formatDate(new Date());
+}
+
+function formatDate(date) {
+  return date.toLocaleTimeString();
+}
+
+function Comment(props) {
+  return (
+    <div>
+      <UserInfo user={props.author} />
+      <div>
+        {props.text}
+      </div>
+      <div>
+        {formatDate(props.date)}
+      </div>
+    </div>
+  );
+}
+
+function Avatar(props) {
+  console.log(props);
+  return (
+    <img
+      src={props.user.avatarUrl}
+      alt={props.user.name}/>
+  );
+}
+
+function UserInfo(props) {
+  return (
+    <div>
+      <Avatar user={props.user} />
+      <div>
+        {props.user.name}
+      </div>
+    </div>
+  );
+}
+
+const comment = {
+  'author': {
+    'name': 'Kitty',
+    'avatarUrl': 'http://placekitten.com/g/64/64',
+  },
+  'text': 'Very cool app!',
+  'date': new Date(),
 }
 
 function App() {
@@ -40,6 +87,10 @@ function App() {
       <Greeting sex="1" />
       <Greeting sex="0" />
       <Time />
+      <Comment
+        author={comment.author}
+        text={comment.text}
+        date={comment.date} />
     </div>
   );
 }
