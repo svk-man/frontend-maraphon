@@ -83,10 +83,16 @@ const comment = {
   'date': new Date(),
 }
 
-const items = [1, 2, 3, 4, 5];
-const listItems = items.map(item => {
-  return <li>{item}</li>;
-});
+const numbers = [1, 2, 3, 4, 5];
+
+function NumberList(props) {
+  const numbers = props.numbers;
+  const listItems = numbers.map((number) =>
+    <li>{number}</li>
+  );
+
+  return <ul>{listItems}</ul>;
+}
 
 function App() {
   return (
@@ -98,7 +104,7 @@ function App() {
         author={comment.author}
         text={comment.text}
         date={comment.date} />
-      <ul>{listItems}</ul>
+      <NumberList numbers={numbers} />
     </div>
   );
 }
