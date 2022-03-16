@@ -83,6 +83,11 @@ const comment = {
   'date': new Date(),
 }
 
+const items = [1, 2, 3, 4, 5];
+const listItems = items.map(item => {
+  return <li>{item}</li>;
+});
+
 function App() {
   return (
     <div>
@@ -93,6 +98,7 @@ function App() {
         author={comment.author}
         text={comment.text}
         date={comment.date} />
+      {listItems}
     </div>
   );
 }
