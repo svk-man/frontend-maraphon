@@ -98,7 +98,7 @@ function App() {
         author={comment.author}
         text={comment.text}
         date={comment.date} />
-      {listItems}
+      <ul>{listItems}</ul>
     </div>
   );
 }
