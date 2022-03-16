@@ -1,7 +1,8 @@
 import React from 'react';
 
-function Button() {
-  return <input type="submit" value="Search name" />;
+function Button(props) {
+  const { type, value } = props;
+  return <input type={type} value={value} />;
 }
 
 export default Button;
