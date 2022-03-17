@@ -9,8 +9,14 @@ function BoilingVerdict(props) {
   return <p>Вода не закипит.</p>;
 }
 
-function Calculator() {
+const scaleNames = {
+  c: 'Цельсия',
+  f: 'Фаренгейта'
+};
+
+function TemperatureInput(props) {
   const [ temperature, setTemperature ] = useState(0);
+  const scale = props.scale;
 
   function handleChange(event) {
     setTemperature(event.target.value);
@@ -18,10 +24,18 @@ function Calculator() {
 
   return (
     <fieldset>
-      <legend>Введите температуру в градусах Цельсия:</legend>
+      <legend>Введите температуру в градусах {scaleNames[scale]}:</legend>
       <input type="number" value={temperature} onChange={handleChange} />
-      <BoilingVerdict celsius={temperature} />
     </fieldset>
+  );
+}
+
+function Calculator() {
+  return (
+    <div>
+      <TemperatureInput scale="c" />
+      <TemperatureInput scale="f" />
+    </div>
   );
 }
 
