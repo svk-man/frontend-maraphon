@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import App from './App'
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Вы кликнули {count} раз</p>
+      <button onClick={() => { setCount(count + 1); }}>Кликнуть</button>
+    </div>
+  );
+}
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Counter />,
   document.getElementById('root')
 )
