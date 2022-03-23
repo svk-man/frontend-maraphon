@@ -16,36 +16,30 @@ body {
   padding: 25px 8px;
 }
 
-.todo__priority-list {
+.todo__item {
+  list-style: none;
   margin-bottom: 12px;
 }
 
-.todo__priority-list:last-child {
-  margin-bottom: 0;
-}
-
-.todo__priority-title {
-  margin-bottom: 12px;
+.todo__item-category {
+  display: block;
+  padding-bottom: 4px;
   text-align: center;
   text-transform: uppercase;
 }
 
-.todo__item {
+.todo__item-add-task,
+.todo__item-task {
   position: relative;
   min-height: 45px;
   padding: 12px;
   padding-right: 45px;
-  margin-bottom: 8px;
   border: 1px solid #989898;
   border-radius: 6px;
   list-style: none;
 }
 
-.todo__item:last-child {
-  margin-bottom: 0;
-}
-
-.todo__item--done {
+.todo__item-task--done {
   background-color: #F4F4F4;
 }
 

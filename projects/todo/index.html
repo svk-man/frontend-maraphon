@@ -12,48 +12,55 @@
 </head>
 <body>
   <div class="todo">
-    <div class="todo__priority-list">
-      <p class="todo__priority-title">High</p>
-      <ul class="todo__list">
-        <li class="todo__item">
-          <form class="todo__item-form" action="./">
-            <input class="todo__item-input" type="text" placeholder="Добавить важных дел">
-            <input class="todo__item-btn todo__item-btn--add" type="submit" value="">
-          </form>
-        </li>
-        <li class="todo__item">
-          <input class="todo__item-checkbox" type="checkbox" name="todo-high-item-1" id="todo-high-item-1">
-          <label class="todo__item-checkbox-label" for="todo-high-item-1">Вот вам и супер интересная тема. 
+    <ul class="todo__list">
+      <li class="todo__item">
+        <span class="todo__item-category">High</span>
+      </li>
+      <li class="todo__item">
+        <form class="todo__item-add-task">
+          <input class="todo__item-input" type="text" placeholder="Добавить важных дел">
+          <input class="todo__item-btn todo__item-btn--add" type="submit" value="">
+        </form>
+      </li>
+      <li class="todo__item">
+        <div class="todo__item-task">
+          <input class="todo__item-checkbox" type="checkbox" name="todo-item-task-1" id="todo-item-task-1">
+          <label class="todo__item-checkbox-label" for="todo-item-task-1">Вот вам и супер интересная тема. 
             Вы наверняка заметили что ваши файлы с кодом становятся все объемнее, что хочется вынести некоторые вещи куда-то за пределы основной программы.</label>
           <button class="todo__item-btn todo__item-btn--delete"></button>
-        </li>
-        <li class="todo__item">
-          <input class="todo__item-checkbox" type="checkbox" name="todo-high-item-2" id="todo-high-item-2">
-          <label class="todo__item-checkbox-label" for="todo-high-item-2">Сверстать этот TODO list</label>
+        </div>
+      </li>
+      <li class="todo__item">
+        <div class="todo__item-task">
+          <input class="todo__item-checkbox" type="checkbox" name="todo-item-task-2" id="todo-item-task-2">
+          <label class="todo__item-checkbox-label" for="todo-item-task-2">Сверстать этот TODO list</label>
           <button class="todo__item-btn todo__item-btn--delete"></button>
-        </li>
-        <li class="todo__item todo__item--done">
-          <input class="todo__item-checkbox" type="checkbox" name="todo-high-item-3" id="todo-high-item-3" checked>
-          <label class="todo__item-checkbox-label" for="todo-high-item-3">Начать делать задачу</label>
+        </div>
+      </li>
+      <li class="todo__item">
+        <div class="todo__item-task todo__item-task--done">
+          <input class="todo__item-checkbox" type="checkbox" name="todo-item-task-3" id="todo-item-task-3" checked>
+          <label class="todo__item-checkbox-label" for="todo-item-task-3">Начать делать задачу</label>
           <button class="todo__item-btn todo__item-btn--delete"></button>
-        </li>
-      </ul>
-    </div>
-    <div class="todo__priority-list">
-      <p class="todo__priority-title">Low</p>
-      <ul class="todo__list">
-        <li class="todo__item">
-          <input class="todo__item-input" type="text" placeholder="Добавить">
-          <button class="todo__item-btn todo__item-btn--add"></button>
-        </li>
-        <li class="todo__item">
-          <input class="todo__item-checkbox" type="checkbox" name="todo-low-item-1" id="todo-low-item-1">
-          <label class="todo__item-checkbox-label" for="todo-low-item-1">Посмотреть ютубчик</label>
+        </div>
+      </li>
+      <li class="todo__item">
+        <span class="todo__item-category">Low</span>
+      </li>
+      <li class="todo__item">
+        <form class="todo__item-add-task">
+          <input class="todo__item-input" type="text" placeholder="Добавить важных дел">
+          <input class="todo__item-btn todo__item-btn--add" type="submit" value="">
+        </form>
+      </li>
+      <li class="todo__item">
+        <div class="todo__item-task">
+          <input class="todo__item-checkbox" type="checkbox" name="todo-item-task-4" id="todo-item-task-4">
+          <label class="todo__item-checkbox-label" for="todo-item-task-4">Посмотреть ютубчик</label>
           <button class="todo__item-btn todo__item-btn--delete"></button>
-        </li>
-      </ul>
-    </div>
+        </div>
+      </li>
+    </ul>
   </div>
-  <script type="module" src="./main.js"></script>
 </body>
 </html>
