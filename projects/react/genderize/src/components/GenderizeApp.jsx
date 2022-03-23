@@ -5,10 +5,9 @@ import { useState } from 'react';
 
 function GenderizeApp() {
   const [outputText, setOutpuText] = useState('');
-  updateOutputText = updateOutputText.bind(this);
 
-  function updateOutputText(nameInfo) {
-    setOutpuText(nameInfo['gender'] ? 'Gender: ' + nameInfo['gender'] : '');
+  function updateOutputText(nameData) {
+    setOutpuText(nameData['gender'] ? 'Gender: ' + nameData['gender'] : '');
   }
 
   return (
@@ -19,4 +18,4 @@ function GenderizeApp() {
   );
 }
 
-export default GenderizeApp
+export default GenderizeApp;
