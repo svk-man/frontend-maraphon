@@ -67,6 +67,7 @@ export function generateId() {
 }
 
 export function addTask(name, status = STATUSES.TO_DO, priority = PRIORITIES.LOW) {
+  console.log(tasks);
   if (name && isValidStatus(status) && isValidPriority(priority)) {
     const task = {
       id: generateId(),
