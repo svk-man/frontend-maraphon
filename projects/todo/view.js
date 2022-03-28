@@ -1,4 +1,4 @@
-import { tasks, STATUSES, PRIORITIES, addTask, getTask, changeStatus, deleteTask } from "./to do.js";
+import { tasks, STATUSES, PRIORITIES, addTask, changeStatus, deleteTask } from "./to do.js";
 
 export const UI_TODO_LIST = document.querySelector('.todo__list');
 
@@ -9,8 +9,9 @@ export function showTodoList() {
   let lastTaskPriority = null;
   sortedTasks.forEach(task => {
     if (task.priority != lastTaskPriority) {
+      const isHighPriorityTask = task.priority === PRIORITIES.HIGH;
       UI_TODO_LIST.append(createListItemCategory(task.priority));
-      UI_TODO_LIST.append(createListItemAddTask(`Add ${task.priority === PRIORITIES.HIGH ? 'important ' : ''}task`, task.priority));
+      UI_TODO_LIST.append(createListItemAddTask(`Add ${isHighPriorityTask ? 'important ' : ''}task`, task.priority));
     }
 
     UI_TODO_LIST.append(createListItemTask(task));
@@ -20,9 +21,11 @@ export function showTodoList() {
 }
 
 function compareTasks(task1, task2) {
-  if ((task1.priority === PRIORITIES.HIGH && task2.priority === PRIORITIES.LOW) || task1.id < task2.id) {
+  const isHighPriorityTask1 = task1.priority === PRIORITIES.HIGH;
+  const isHighPriorityTask2 = task2.priority === PRIORITIES.HIGH;
+  if ((isHighPriorityTask1 && !isHighPriorityTask2) || task1.id < task2.id) {
     return -1;
-  } else if ((task1.priority === PRIORITIES.LOW && task2.priority === PRIORITIES.HIGH) || task2.id < task1.id) {
+  } else if ((!isHighPriorityTask1 && isHighPriorityTask2) || task2.id < task1.id) {
     return 1;
   } else {
     return 0;
@@ -103,7 +106,7 @@ function createListItemTask(task) {
 
   const button = document.createElement('button');
   button.classList.add('todo__item-btn', 'todo__item-btn--delete');
-  button.addEventListener('click', deleteListItemCheckbox)
+  button.addEventListener('click', deleteListItemTask)
   div.append(button);
 
   li.append(div);
@@ -116,7 +119,6 @@ function addListItemTask(event) {
 
   const form = event.target;
   const taskName = form.children[0].value;
-
   if (taskName.trim()) {
     const taskPriority = form.dataset['priority'] === PRIORITIES.LOW ? PRIORITIES.LOW : PRIORITIES.HIGH;
     const taskId = addTask(taskName, STATUSES.TO_DO, taskPriority);
@@ -131,17 +133,15 @@ function changeListItemTaskStatus(event) {
   const listItemCheckbox = event.target;
   const listItemTask = listItemCheckbox.parentNode;
   const taskId = Number(listItemTask.dataset.id);
+
+  changeStatus(taskId, listItemCheckbox.checked ? STATUSES.DONE : STATUSES.TO_DO);
   listItemTask.classList.toggle('todo__item-task--done');
-  if (listItemCheckbox.checked) {
-    changeStatus(taskId, STATUSES.DONE);
-  } else {
-    changeStatus(taskId, STATUSES.TO_DO);
-  }
 }
 
-function deleteListItemCheckbox(event) {
-  const listItem = event.target.parentNode;
+function deleteListItemTask(event) {
+  const listItemTask = event.target.parentNode;
   const taskId = Number(listItem.dataset.id);
+
   deleteTask(taskId);
-  listItem.remove();
+  listItemTask.remove();
 }
