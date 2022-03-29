@@ -1,42 +1,45 @@
 const UI_ELEMENTS = {
-  form: document.querySelector('.form'),
-  outputName: document.querySelector('.output-name'),
-  outputNation: document.querySelector('.output-nation'),
+  FORM: document.querySelector('.form'),
+  OUTPUT: {
+    NAME: document.querySelector('.output-name'),
+    NATION: document.querySelector('.output-nation'),
+  },
 };
 
-UI_ELEMENTS.form.addEventListener('submit', function(event) {
+const SERVER_URL = {
+  NAME: 'https://api.genderize.io',
+  NATION: 'https://api.nationalize.io',
+};
+
+UI_ELEMENTS.FORM.addEventListener('submit', (event) => {
   event.preventDefault();
 
-  const SERVER_URL = {
-    name: 'https://api.genderize.io',
-    nation: 'https://api.nationalize.io',
-  };
-
-  const nameField = this.children[0];
+  const nameField = event.target.children[0];
   const name = nameField.value;
 
   if (name) {
     const URL = {
-      name: `${SERVER_URL.name}?name=${name}`,
-      nation: `${SERVER_URL.nation}?name=${name}`,
+      NAME: `${SERVER_URL.NAME}?name=${name}`,
+      NATION: `${SERVER_URL.NATION}?name=${name}`,
     }
   
-    fetch(URL.name)
+    fetch(URL.NAME)
     .then(response => response.json())
     .then(info => {
-      UI_ELEMENTS.outputName.textContent = `${name} is ${info['gender']}`;
+      UI_ELEMENTS.OUTPUT.NAME.textContent = `${name} is ${info['gender']}`;
     });
 
-    fetch(URL.nation)
+    fetch(URL.NATION)
     .then(response => response.json())
     .then(info => {
       const countries = info['country'].map(country => country['country_id']).join(', ');
-      UI_ELEMENTS.outputNation.textContent = `Probable nationality: ${countries}`;
+      UI_ELEMENTS.OUTPUT.NATION.textContent = `Probable nationality: ${countries}`;
     });
   }
 });
 
-const formField = UI_ELEMENTS.form.children[0];
-formField.addEventListener('change', () => { UI_ELEMENTS.output.textContent = ''; });
-
-
+const formField = UI_ELEMENTS.FORM.children[0];
+formField.addEventListener('change', () => {
+  UI_ELEMENTS.OUTPUT.NAME.textContent = '';
+  UI_ELEMENTS.OUTPUT.NATION.textContent = '';
+});
