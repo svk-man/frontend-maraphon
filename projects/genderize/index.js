@@ -1,13 +1,7 @@
-const UI_ELEMENTS = {
-  FORM: document.querySelector('.form'),
-  OUTPUT: {
-    NAME: document.querySelector('.output-name'),
-    NATION: document.querySelector('.output-nation'),
-  },
-};
+import { UI_ELEMENTS, setOutputGender, setOutputNation, clearOutput } from "./view.js";
 
 const SERVER_URL = {
-  NAME: 'https://api.genderize.io',
+  GENDER: 'https://api.genderize.io',
   NATION: 'https://api.nationalize.io',
 };
 
@@ -19,27 +13,24 @@ UI_ELEMENTS.FORM.addEventListener('submit', (event) => {
 
   if (name) {
     const URL = {
-      NAME: `${SERVER_URL.NAME}?name=${name}`,
+      GENDER: `${SERVER_URL.GENDER}?name=${name}`,
       NATION: `${SERVER_URL.NATION}?name=${name}`,
     }
   
-    fetch(URL.NAME)
+    fetch(URL.GENDER)
     .then(response => response.json())
     .then(info => {
-      UI_ELEMENTS.OUTPUT.NAME.textContent = `${name} is ${info['gender']}`;
+      setOutputGender(name, info['gender']);
     });
 
     fetch(URL.NATION)
     .then(response => response.json())
     .then(info => {
       const countries = info['country'].map(country => country['country_id']).join(', ');
-      UI_ELEMENTS.OUTPUT.NATION.textContent = `Probable nationality: ${countries}`;
+      setOutputNation(countries);
     });
   }
 });
 
 const formField = UI_ELEMENTS.FORM.children[0];
-formField.addEventListener('change', () => {
-  UI_ELEMENTS.OUTPUT.NAME.textContent = '';
-  UI_ELEMENTS.OUTPUT.NATION.textContent = '';
-});
+formField.addEventListener('change', clearOutput);
