@@ -185,7 +185,13 @@ body {
   flex-direction: column;
   justify-content: space-between;
   row-gap: 9px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.weather-forecast__items::-webkit-scrollbar {
+  display: none;
 }
 
 .weather-forecast__item {
