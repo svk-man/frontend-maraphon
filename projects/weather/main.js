@@ -12,17 +12,18 @@ Storage.clearFavouriteCities();*/
 View.clearWeatherFavouriteCitiesList();
 View.closeWeatherItem(View.WEATHER_ITEM.NOW);
 View.closeWeatherItem(View.WEATHER_ITEM.FAVOURITE_CITIES);
-loadCurrentCity();
-loadFavouriteCities();
+//loadCurrentCity();
+//loadFavouriteCities();
 
-function loadCurrentCity() {
+/*function loadCurrentCity() {
   if (!Storage.isEmptyCurrentCity()) {
     const currentCity = Storage.getCurrentCity();
     View.renderCityWeatherNow(currentCity);
     View.renderCityWeatherDetails(currentCity);
+    View.renderCityWeatherForecast(currentCity);
     View.openWeatherItem(View.WEATHER_ITEM.NOW);
   }
-}
+}*/
 
 function loadFavouriteCities() {
   if (!Storage.isEmptyFavouriteCities()) {
@@ -54,7 +55,7 @@ function changeFavouriteCityHandler(event) {
   const isFavouriteCityButtonActive = favouriteCityButton.classList.contains('weather-now__favourite-btn--active');
 
   const currentCity = Storage.getCurrentCity();
-  currentCity[View.CITY_WEATHER_PROPERTIES.isFavourite] = !isFavouriteCityButtonActive;
+  currentCity[View.WEATHER_PROPERTIES.IS_FAVOURITE] = !isFavouriteCityButtonActive;
   if (!isFavouriteCityButtonActive) {
     View.addWeatherFavouriteCitiesListItem(cityName);
   } else {
@@ -77,11 +78,12 @@ function showFavouriteCityWeatherHandler(event) {
 
 function showCityWeather(cityName) {
   if (cityName) {
-    Network.getCityWeatherInfo(cityName)
-      .then(cityWeatherInfo => {
-        View.renderCityWeatherNow(cityWeatherInfo);
-        View.renderCityWeatherDetails(cityWeatherInfo);
-        Storage.saveCurrentCity(cityWeatherInfo);
+    Network.getCityWeatherData(cityName)
+      .then(cityWeatherData => {
+        View.renderCityWeatherNow(cityWeatherData['weather']);
+        View.renderCityWeatherDetails(cityWeatherData['weather']);
+        View.renderCityWeatherForecast(cityWeatherData['forecast']);
+        Storage.saveCurrentCity(cityWeatherData);
         View.openWeatherItem(View.WEATHER_ITEM.NOW);
       })
       .catch(error => alert(ERROR_MESSAGE + error.message));

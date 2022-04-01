@@ -1,6 +1,6 @@
-import { CONFIG } from "./config.js";
 import * as Storage from "./storage.js";
 import * as Favourite from "./favourite.js";
+import * as DateTime from "./datetime.js";
 
 export const DATASET_FAVOURITE_CITY = 'favouriteCity';
 
@@ -36,22 +36,26 @@ export const UI_ELEMENTS = {
     },
     [WEATHER_ITEM.FORECAST]: {
       'SELF': document.querySelector('.weather-forecast'),
+      'TITLE': document.querySelector('.weather-forecast__title'),
+      'LIST': document.querySelector('.weather-forecast__items'),
     }
   },
   'WEATHER_TABS': document.querySelector('.weather-app__weather-tabs'),
   'WEATHER_TAB_ITEMS': Array.from(document.querySelectorAll('.weather-app__weather-tab')),
 };
 
-export const CITY_WEATHER_PROPERTIES = {
-  name: 'name',
-  temperature: 'temperature',
-  feelsLike: 'feels like',
-  weather: 'weather',
-  icon: 'icon',
-  sunrise: 'sunrise',
-  sunset: 'sunset',
-  details: 'details',
-  isFavourite: 'is-favourite',
+export const WEATHER_PROPERTIES = {
+  CITY: 'name',
+  TEMPERATURE: 'temperature',
+  FEELS_LIKE: 'feels like',
+  ICON: 'icon',
+  SUNRISE: 'sunrise',
+  SUNSET: 'sunset',
+  IS_FAVOURITE: 'is_favourite',
+  DETAILS: 'details',
+  WEATHER: 'weather',
+  DATETIME: 'datetime',
+  LIST: 'list',
 };
 
 export function openWeatherItem(name) {
@@ -74,15 +78,15 @@ export function clearWeatherFavouriteCitiesList () {
   UI_ELEMENTS.WEATHER_ITEM.FAVOURITE_CITIES.LIST.textContent = '';
 }
 
-export function renderCityWeatherNow(cityWeatherInfo) {
+export function renderCityWeatherNow(cityWeatherData) {
   const weatherItemNow = UI_ELEMENTS.WEATHER_ITEM.NOW;
 
-  weatherItemNow.CITY.textContent = cityWeatherInfo[CITY_WEATHER_PROPERTIES.name];
-  weatherItemNow.TEMPERATURE.textContent = Math.round(cityWeatherInfo[CITY_WEATHER_PROPERTIES.temperature]);
-  weatherItemNow.CONTENT.style.backgroundImage = `url('${CONFIG.SERVER_ICON_URL}${cityWeatherInfo[CITY_WEATHER_PROPERTIES.icon]}@2x.png')`;
-  weatherItemNow.FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] = cityWeatherInfo[CITY_WEATHER_PROPERTIES.name];
+  weatherItemNow.CITY.textContent = cityWeatherData[WEATHER_PROPERTIES.CITY];
+  weatherItemNow.TEMPERATURE.textContent = Math.round(cityWeatherData[WEATHER_PROPERTIES.TEMPERATURE]);
+  weatherItemNow.CONTENT.style.backgroundImage = `url('${cityWeatherData[WEATHER_PROPERTIES.ICON]}')`;
+  weatherItemNow.FAVOURITE_CITY_BUTTON.dataset[DATASET_FAVOURITE_CITY] = cityWeatherData[WEATHER_PROPERTIES.CITY];
 
-  if (!cityWeatherInfo[CITY_WEATHER_PROPERTIES.isFavourite]) {
+  if (!cityWeatherData[WEATHER_PROPERTIES.IS_FAVOURITE]) {
     weatherItemNow.FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
   } else {
     weatherItemNow.FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
@@ -98,31 +102,30 @@ export function renderFavouriteCities(favouriteCities) {
   });
 }
 
-export function renderCityWeatherDetails(cityWeatherInfo) {
+export function renderCityWeatherDetails(cityWeatherData) {
   const prepareDetailsItemKey = name => name[0].toUpperCase() + name.slice(1).toLowerCase();
 
   const weatherItemDetails = UI_ELEMENTS.WEATHER_ITEM.DETAILS;
   weatherItemDetails.LIST.textContent = '';
-  weatherItemDetails.TITLE.textContent = cityWeatherInfo[CITY_WEATHER_PROPERTIES.name];
+  weatherItemDetails.TITLE.textContent = cityWeatherData[WEATHER_PROPERTIES.CITY];
 
-  const detailsItems = cityWeatherInfo[CITY_WEATHER_PROPERTIES.details];
+  const detailsItems = cityWeatherData[WEATHER_PROPERTIES.DETAILS];
   for (const detailsItemKey in detailsItems) {
     const li = document.createElement('li');
     li.classList.add('weather-details__item');
     li.textContent = `${prepareDetailsItemKey(detailsItemKey)}: `;
 
     switch(detailsItemKey) {
-      case CITY_WEATHER_PROPERTIES.temperature:
-      case CITY_WEATHER_PROPERTIES.feelsLike:
+      case WEATHER_PROPERTIES.TEMPERATURE:
+      case WEATHER_PROPERTIES.FEELS_LIKE:
         const span = document.createElement('span');
         span.classList.add('weather-details__item-degree');
         span.textContent = detailsItems[detailsItemKey];
         li.append(span);
         break;
-      case CITY_WEATHER_PROPERTIES.sunset:
-      case CITY_WEATHER_PROPERTIES.sunrise:
-          const date = new Date(detailsItems[detailsItemKey]);
-          li.textContent += `${date.getHours()}:${date.getMinutes()}`;
+      case WEATHER_PROPERTIES.SUNSET:
+      case WEATHER_PROPERTIES.SUNRISE:
+          li.textContent += DateTime.formatTime(new Date(detailsItems[detailsItemKey]));
         break;
       default:
         li.textContent += detailsItems[detailsItemKey];
@@ -149,8 +152,8 @@ export function removeWeatherFavouriteCitiesListItem(cityName) {
   Favourite.removeFavouriteCity(cityName);
 
   const currentCity = Storage.getCurrentCity();
-  if (currentCity[CITY_WEATHER_PROPERTIES.name] === cityName) {
-    currentCity[CITY_WEATHER_PROPERTIES.isFavourite] = false;
+  if (currentCity[WEATHER_PROPERTIES.CITY] === cityName) {
+    currentCity[WEATHER_PROPERTIES.IS_FAVOURITE] = false;
     Storage.saveCurrentCity(currentCity);
   }
 
@@ -182,3 +185,35 @@ export function createWeatherFavouriteCitiesListItem(cityName) {
 
   return li;
 }
+
+export function renderCityWeatherForecast(cityForecastData) {
+  const weatherItemForecast = UI_ELEMENTS.WEATHER_ITEM.FORECAST;
+  weatherItemForecast.TITLE.textContent = cityForecastData[WEATHER_PROPERTIES.CITY];
+  weatherItemForecast.LIST.textContent = '';
+  cityForecastData[WEATHER_PROPERTIES.LIST].forEach(cityForecastItem => {
+    weatherItemForecast.LIST.insertAdjacentHTML('beforeend', createCityWeatherForecastListItem(cityForecastItem));
+  });
+}
+
+function createCityWeatherForecastListItem(cityForecastItem) {
+  const date = new Date(cityForecastItem[WEATHER_PROPERTIES.DATETIME]);
+
+  return `<div class="weather-forecast__item">
+  <p class="weather-forecast__item-datetime">
+    <span class="weather-forecast__item-date">${DateTime.formatDate(date)}</span>
+    <span class="weather-forecast__item-time">${DateTime.formatTime(date)}</span>
+  </p>
+  <div class="weather-forecast__item-details">
+    <ul class="weather-forecast__item-details-list">
+      <li class="weather-forecast__item-details-item">Temperature: <span class="weather-forecast__item-details-item-degree">${cityForecastItem[WEATHER_PROPERTIES.TEMPERATURE]}</span></li>
+      <li class="weather-forecast__item-details-item">Feels like: <span class="weather-forecast__item-details-item-degree">${cityForecastItem[WEATHER_PROPERTIES.FEELS_LIKE]}</span></li>
+    </ul>
+    <div class="weather-forecast__item-details-condition">
+      <p class="weather-forecast__item-details-condition-description">${cityForecastItem[WEATHER_PROPERTIES.WEATHER]}</p>
+      <img class="weather-forecast__item-details-condition-icon" src="${cityForecastItem[WEATHER_PROPERTIES.ICON]}" alt="${cityForecastItem[WEATHER_PROPERTIES.WEATHER]}">
+    </div>
+  </div>
+</div>`;
+}
+
+
