@@ -88,10 +88,6 @@ body {
   background: url('assets/svg/cloud.svg') no-repeat center;
 }
 
-.weather-now__message {
-  text-align: center;
-}
-
 .weather-now__temperature {
   position: relative;
   display: inline-flex;
@@ -138,6 +134,10 @@ body {
   align-items: flex-start;
 }
 
+.weather-details__message {
+  align-self: center;
+}
+
 .weather-details__title {
   margin-bottom: 42px;
 }
@@ -176,11 +176,21 @@ body {
   align-items: flex-start;
 }
 
+.weather-forecast__message {
+  align-self: center;
+}
+
+.weather-forecast__content {
+  height: 100%;
+}
+
 .weather-forecast__title {
   margin-bottom: 7px;
 }
 
 .weather-forecast__items {
+  height: 100%;
+  padding-bottom: 33px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -295,6 +305,10 @@ body {
   flex-grow: 1;
 }
 
+.weather-favourite-cities__message {
+  text-align: center;
+}
+
 .weather-favourite-cities__content {
   width: 100%;
 }
@@ -311,10 +325,6 @@ body {
 .weather-favourite-cities__list--center {
   justify-content: center;
   align-items: center;
-}
-
-.weather-favourite-cities__message {
-  text-align: center;
 }
 
 .weather-favourite-cities__item {

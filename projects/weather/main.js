@@ -23,6 +23,8 @@ function loadCurrentCity() {
     console.log(currentCity);
     View.renderCityWeatherForecast(currentCity);
     View.openWeatherItem(View.WEATHER_ITEM.NOW);
+    View.openWeatherItem(View.WEATHER_ITEM.DETAILS);
+    View.openWeatherItem(View.WEATHER_ITEM.FORECAST);
   }
 }
 
@@ -86,6 +88,8 @@ function showCityWeather(cityName) {
         View.renderCityWeatherForecast(cityWeatherData);
         Storage.saveCurrentCity(cityWeatherData);
         View.openWeatherItem(View.WEATHER_ITEM.NOW);
+        View.openWeatherItem(View.WEATHER_ITEM.DETAILS);
+        View.openWeatherItem(View.WEATHER_ITEM.FORECAST);
       })
       .catch(error => alert(ERROR_MESSAGE + error.message));
   } else {

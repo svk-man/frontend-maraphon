@@ -31,11 +31,15 @@ export const UI_ELEMENTS = {
     },
     [WEATHER_ITEM.DETAILS]: {
       'SELF': document.querySelector('.weather-details'),
+      'MESSAGE': document.querySelector('.weather-details__message'),
+      'CONTENT': document.querySelector('.weather-details__content'),
       'TITLE': document.querySelector('.weather-details__title'),
       'LIST': document.querySelector('.weather-details__list'),
     },
     [WEATHER_ITEM.FORECAST]: {
       'SELF': document.querySelector('.weather-forecast'),
+      'MESSAGE': document.querySelector('.weather-forecast__message'),
+      'CONTENT': document.querySelector('.weather-forecast__content'),
       'TITLE': document.querySelector('.weather-forecast__title'),
       'LIST': document.querySelector('.weather-forecast__items'),
     }
