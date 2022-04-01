@@ -80,5 +80,5 @@ function getCityForecast(jsonData) {
 }
 
 function getIconUrl(name) {
-  return `${CONFIG.SERVER_URL.ICON}${name}@2x.png`;
+  return `${CONFIG.SERVER_URL.ICON}${name}@4x.png`;
 }
