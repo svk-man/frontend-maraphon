@@ -2,26 +2,32 @@ import { UI_ELEMENTS } from "./view.js";
 
 const DATASET_WEATHER_TAB = 'weatherTab';
 
-UI_ELEMENTS.WEATHER_TABS.addEventListener('click', changeWeatherTabHandler);
+UI_ELEMENTS.WEATHER_TABS.addEventListener('click', changeWeatherTab);
 
-function changeWeatherTabHandler(event) {
-  const weatherTab = event.target;
-  const isWeatherTab = weatherTab.classList.contains('weather-app__weather-tab');
+function changeWeatherTab(event) {
+  const currentWeatherTab = event.target;
+  const isWeatherTab = currentWeatherTab.classList.contains('weather-app__weather-tab');
   if (isWeatherTab) {
-    const weatherTabKey = weatherTab.dataset[DATASET_WEATHER_TAB];
+    const setActiveWeatherItem = (weatherItemName) => {
+      UI_ELEMENTS.WEATHER_ITEMS.forEach(weatherItem => {
+        if (weatherItem.classList.contains(`weather-${weatherItemName}`)) {
+          weatherItem.classList.remove('hidden');
+        } else {
+          weatherItem.classList.add('hidden');
+        }
+      });
+    };
 
-    UI_ELEMENTS.WEATHER_ITEMS.forEach(weatherItem => {
-      if (weatherItem.classList.contains(`weather-${weatherTabKey}`)) {
-        weatherItem.classList.remove('hidden');
-      } else {
-        weatherItem.classList.add('hidden');
-      }
-    });
+    const setActiveWeatherTab = (weatherTab) => {
+      UI_ELEMENTS.WEATHER_TAB_ITEMS.forEach(weatherTabItem => {
+        weatherTabItem.classList.remove('weather-app__weather-tab--active');
+      });
+  
+      weatherTab.classList.add('weather-app__weather-tab--active');
+    };
 
-    UI_ELEMENTS.WEATHER_TAB_ITEMS.forEach(weatherTab => {
-      weatherTab.classList.remove('weather-app__weather-tab--active');
-    });
-
-    weatherTab.classList.add('weather-app__weather-tab--active');
+    const weatherTabKey = currentWeatherTab.dataset[DATASET_WEATHER_TAB];
+    setActiveWeatherItem(weatherTabKey);
+    setActiveWeatherTab(currentWeatherTab);
   }
 }
