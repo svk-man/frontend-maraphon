@@ -140,14 +140,14 @@ export function addWeatherFavouriteCitiesListItem(cityName) {
 
   UI_ELEMENTS.WEATHER_ITEM.NOW.FAVOURITE_CITY_BUTTON.classList.add('weather-now__favourite-btn--active');
 
-  if (Favourite.isEmptyFavouriteCities()) {
+  if (!Favourite.isEmptyFavouriteCities()) {
     openWeatherItem(WEATHER_ITEM.FAVOURITE_CITIES);
   }
 }
 
 export function removeWeatherFavouriteCitiesListItem(cityName) {
   Favourite.removeFavouriteCity(cityName);
-  
+
   const currentCity = Storage.getCurrentCity();
   if (currentCity[CITY_WEATHER_PROPERTIES.name] === cityName) {
     currentCity[CITY_WEATHER_PROPERTIES.isFavourite] = false;
@@ -161,8 +161,8 @@ export function removeWeatherFavouriteCitiesListItem(cityName) {
     UI_ELEMENTS.WEATHER_ITEM.NOW.FAVOURITE_CITY_BUTTON.classList.remove('weather-now__favourite-btn--active');
   }
 
-  if (!Favourite.isEmptyFavouriteCities()) {
-    clearWeatherFavouriteCities();
+  if (Favourite.isEmptyFavouriteCities()) {
+    closeWeatherItem(WEATHER_ITEM.FAVOURITE_CITIES);
   }
 }
 

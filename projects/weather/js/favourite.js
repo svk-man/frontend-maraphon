@@ -21,7 +21,7 @@ function prepareCityName(name) {
 }
 
 export function isEmptyFavouriteCities() {
-  return !!_favouriteCities.length;
+  return !_favouriteCities.length;
 }
 
 export function getFavouriteCities() {
