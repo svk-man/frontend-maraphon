@@ -12,18 +12,19 @@ Storage.clearFavouriteCities();*/
 View.clearWeatherFavouriteCitiesList();
 View.closeWeatherItem(View.WEATHER_ITEM.NOW);
 View.closeWeatherItem(View.WEATHER_ITEM.FAVOURITE_CITIES);
-//loadCurrentCity();
-//loadFavouriteCities();
+loadCurrentCity();
+loadFavouriteCities();
 
-/*function loadCurrentCity() {
+function loadCurrentCity() {
   if (!Storage.isEmptyCurrentCity()) {
     const currentCity = Storage.getCurrentCity();
     View.renderCityWeatherNow(currentCity);
     View.renderCityWeatherDetails(currentCity);
+    console.log(currentCity);
     View.renderCityWeatherForecast(currentCity);
     View.openWeatherItem(View.WEATHER_ITEM.NOW);
   }
-}*/
+}
 
 function loadFavouriteCities() {
   if (!Storage.isEmptyFavouriteCities()) {
@@ -80,9 +81,9 @@ function showCityWeather(cityName) {
   if (cityName) {
     Network.getCityWeatherData(cityName)
       .then(cityWeatherData => {
-        View.renderCityWeatherNow(cityWeatherData['weather']);
-        View.renderCityWeatherDetails(cityWeatherData['weather']);
-        View.renderCityWeatherForecast(cityWeatherData['forecast']);
+        View.renderCityWeatherNow(cityWeatherData);
+        View.renderCityWeatherDetails(cityWeatherData);
+        View.renderCityWeatherForecast(cityWeatherData);
         Storage.saveCurrentCity(cityWeatherData);
         View.openWeatherItem(View.WEATHER_ITEM.NOW);
       })

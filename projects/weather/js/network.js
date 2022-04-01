@@ -10,11 +10,11 @@ export function getCityWeatherData(cityName) {
   const cityWeatherInfo = {};
   return loadJsonData(weatherUrl)
     .then(jsonData => {
-      cityWeatherInfo['weather'] = getCityWeather(jsonData);
+      Object.assign(cityWeatherInfo, getCityWeather(jsonData));
       return loadJsonData(forecastUrl);
     })
     .then(jsonData => {
-      cityWeatherInfo['forecast'] = getCityForecast(jsonData);
+      Object.assign(cityWeatherInfo, getCityForecast(jsonData));
       return cityWeatherInfo;
     })
     .catch(error => alert(ERROR_MESSAGE + error.message));
@@ -57,7 +57,6 @@ function getCityWeather(jsonData) {
 }
 
 function getCityForecast(jsonData) {
-  const getCityName = jsonData => jsonData.city.name;
   const getDatetime = jsonData => jsonData.dt;
   const getTemperature = jsonData => jsonData.main.temp;
   const getFeelsLike = jsonData => jsonData.main.feels_like;
@@ -76,7 +75,6 @@ function getCityForecast(jsonData) {
   };
 
   return {
-    [WEATHER_PROPERTIES.CITY]: getCityName(jsonData),
     [WEATHER_PROPERTIES.LIST]: getForecastItems(jsonData),
   };
 }
