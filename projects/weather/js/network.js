@@ -4,31 +4,32 @@ import { WEATHER_PROPERTIES } from "./view.js";
 
 const ERROR_MESSAGE = 'Упс! Что-то пошло не так: ';
 
-export function getCityWeatherData(cityName) {
+export async function getCityWeatherData(cityName) {
   const weatherUrl = `${CONFIG.SERVER_URL.WEATHER}?q=${cityName}&appid=${CONFIG.API_KEY}&units=metric`;
   const forecastUrl = `${CONFIG.SERVER_URL.FORECAST}?q=${cityName}&appid=${CONFIG.API_KEY}&units=metric&cnt=5`;
   const cityWeatherInfo = {};
-  return loadJsonData(weatherUrl)
-    .then(jsonData => {
-      Object.assign(cityWeatherInfo, getCityWeather(jsonData));
-      return loadJsonData(forecastUrl);
-    })
-    .then(jsonData => {
-      Object.assign(cityWeatherInfo, getCityForecast(jsonData));
-      return cityWeatherInfo;
-    })
-    .catch(error => alert(ERROR_MESSAGE + error.message));
+
+  try {
+    let jsonData = await loadJsonData(weatherUrl);
+    Object.assign(cityWeatherInfo, getCityWeather(jsonData));
+
+    jsonData = await loadJsonData(forecastUrl);
+    Object.assign(cityWeatherInfo, getCityForecast(jsonData));
+  } catch(error) {
+    alert(ERROR_MESSAGE + error.message);
+  }
+
+  return cityWeatherInfo;
 }
 
-function loadJsonData(url) {
-  return fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} (${response.statusText})`);
-      }
+async function loadJsonData(url) {
+  const response = await fetch(url);
 
-      return response.json();
-    });
+  if (!response.ok) {
+    throw new Error(`Error: ${response.status} (${response.statusText})`);
+  }
+
+  return await response.json();
 }
 
 function getCityWeather(jsonData) {

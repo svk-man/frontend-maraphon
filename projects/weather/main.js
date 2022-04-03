@@ -20,7 +20,6 @@ function loadCurrentCity() {
     const currentCity = Storage.getCurrentCity();
     View.renderCityWeatherNow(currentCity);
     View.renderCityWeatherDetails(currentCity);
-    console.log(currentCity);
     View.renderCityWeatherForecast(currentCity);
     View.openWeatherItem(View.WEATHER_ITEM.NOW);
     View.openWeatherItem(View.WEATHER_ITEM.DETAILS);
