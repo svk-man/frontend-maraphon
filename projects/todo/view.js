@@ -145,5 +145,5 @@ function deleteListItemTask(event) {
   const taskId = Number(listItemTask.dataset.id);
 
   deleteTask(taskId);
-  listItemTask.remove();
+  listItemTask.parentNode.remove();
 }
