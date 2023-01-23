@@ -6,18 +6,18 @@ export function showTodoList() {
   clearTodoList();
 
   const sortedTasks = [...tasks].sort(compareTasks);
-  let lastTaskPriority = null;
-  sortedTasks.forEach(task => {
-    if (task.priority != lastTaskPriority) {
-      const isHighPriorityTask = task.priority === PRIORITIES.HIGH;
-      UI_TODO_LIST.append(createListItemCategory(task.priority));
-      UI_TODO_LIST.append(createListItemAddTask(`Add ${isHighPriorityTask ? 'important ' : ''}task`, task.priority));
-    }
+	const showPiorityTodoList = (priority) => {
+		UI_TODO_LIST.append(createListItemCategory(priority));
+		UI_TODO_LIST.append(createListItemAddTask(`Add ${priority === PRIORITIES.HIGH ? 'important ' : ''} task`, priority));
+		sortedTasks
+			.filter(task => task.priority === priority)
+			.forEach(task => {
+				UI_TODO_LIST.append(createListItemTask(task));
+			});
+	}
 
-    UI_TODO_LIST.append(createListItemTask(task));
-
-    lastTaskPriority = task.priority;
-  });
+	showPiorityTodoList(PRIORITIES.HIGH);
+	showPiorityTodoList(PRIORITIES.LOW);
 }
 
 function compareTasks(task1, task2) {
@@ -120,7 +120,9 @@ function addListItemTask(event) {
   const form = event.target;
   const taskName = form.children[0].value;
   if (taskName.trim()) {
-    const taskPriority = form.dataset['priority'] === PRIORITIES.LOW ? PRIORITIES.LOW : PRIORITIES.HIGH;
+		console.log(form.dataset['priority'].toUpperCase());
+    const taskPriority = form.dataset['priority'].toUpperCase() === PRIORITIES.LOW ? PRIORITIES.LOW : PRIORITIES.HIGH;
+		console.log(taskPriority);
     const taskId = addTask(taskName, STATUSES.TO_DO, taskPriority);
     const isTaskAdded = taskId !== -1;
     if (isTaskAdded) {
