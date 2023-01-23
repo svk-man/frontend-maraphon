@@ -140,7 +140,7 @@ function changeListItemTaskStatus(event) {
 
 function deleteListItemTask(event) {
   const listItemTask = event.target.parentNode;
-  const taskId = Number(listItem.dataset.id);
+  const taskId = Number(listItemTask.dataset.id);
 
   deleteTask(taskId);
   listItemTask.remove();
