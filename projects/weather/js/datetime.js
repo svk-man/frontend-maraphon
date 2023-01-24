@@ -6,5 +6,11 @@ export function formatDate(date) {
 }
 
 export function formatTime(date) {
-  return `${date.getHours()}:${date.getMinutes()}`;
+	const hours = date.getHours();
+	const minutes = date.getHours();
+	const addLeadZero = (datePart) => {
+		return `${datePart <= 9 ? '0' : ''}${datePart}`;
+	}
+
+  return `${addLeadZero(hours)}:${addLeadZero(minutes)}`;
 }

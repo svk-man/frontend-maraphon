@@ -129,7 +129,7 @@ export function renderCityWeatherDetails(cityWeatherData) {
         break;
       case WEATHER_PROPERTIES.SUNSET:
       case WEATHER_PROPERTIES.SUNRISE:
-          li.textContent += DateTime.formatTime(new Date(detailsItems[detailsItemKey]));
+          li.textContent += DateTime.formatTime(new Date(detailsItems[detailsItemKey] * 1000));
         break;
       default:
         li.textContent += detailsItems[detailsItemKey];
@@ -200,7 +200,7 @@ export function renderCityWeatherForecast(cityForecastData) {
 }
 
 function createCityWeatherForecastListItem(cityForecastItem) {
-  const date = new Date(cityForecastItem[WEATHER_PROPERTIES.DATETIME]);
+  const date = new Date(cityForecastItem[WEATHER_PROPERTIES.DATETIME] * 1000);
 
   return `<div class="weather-forecast__item">
   <p class="weather-forecast__item-datetime">

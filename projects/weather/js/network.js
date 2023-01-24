@@ -6,7 +6,7 @@ const ERROR_MESSAGE = 'Упс! Что-то пошло не так: ';
 
 export async function getCityWeatherData(cityName) {
   const weatherUrl = `${CONFIG.SERVER_URL.WEATHER}?q=${cityName}&appid=${CONFIG.API_KEY}&units=metric`;
-  const forecastUrl = `${CONFIG.SERVER_URL.FORECAST}?q=${cityName}&appid=${CONFIG.API_KEY}&units=metric&cnt=5`;
+  const forecastUrl = `${CONFIG.SERVER_URL.FORECAST}?q=${cityName}&appid=${CONFIG.API_KEY}&units=metric&cnt=40`;
   const cityWeatherInfo = {};
 
   try {
