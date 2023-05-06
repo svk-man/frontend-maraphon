@@ -1,19 +1,15 @@
-let _favouriteCities = [];
+let _favouriteCities = new Set();
 
 export function addFavouriteCity(name) {
-  _favouriteCities.push(prepareCityName(name));
+  _favouriteCities.add(prepareCityName(name));
 }
 
 export function removeFavouriteCity(name) {
-  const index = _favouriteCities.indexOf(prepareCityName(name));
-  const isFavouriteCityExists = index !== -1;
-  if (isFavouriteCityExists) {
-    _favouriteCities.splice(index, 1);
-  }
+  _favouriteCities.delete(name);
 }
 
 export function isFavouriteCityExists(name) {
-  return _favouriteCities.includes(prepareCityName(name));
+  return _favouriteCities.has(prepareCityName(name));
 }
 
 function prepareCityName(name) {
@@ -21,13 +17,13 @@ function prepareCityName(name) {
 }
 
 export function isEmptyFavouriteCities() {
-  return !_favouriteCities.length;
+  return !_favouriteCities.size;
 }
 
 export function getFavouriteCities() {
-  return _favouriteCities;
+  return Array.from(_favouriteCities);
 }
 
 export function saveFavouriteCities(favouriteCities) {
-  _favouriteCities = favouriteCities;
+  _favouriteCities = new Set(Array.from(favouriteCities));
 }
