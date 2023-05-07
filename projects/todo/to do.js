@@ -15,25 +15,17 @@ export const PRIORITIES = {
 
 const DEFAULT_PRIORITY = PRIORITIES.LOW;
 
-export let tasks = [ 
-  {
-    id: 1,
-    name: 'create a post',
-    status: STATUSES.IN_PROGRESS,
-    priority: PRIORITIES.LOW,
-  }, 
-  {
-    id: 2,
-    name: 'make a bed',
-    status: STATUSES.DONE,
-    priority: PRIORITIES.HIGH,
-  },
-  {
-    id: 3,
-    name: 'write a post',
-    status: STATUSES.TO_DO,
-    priority: PRIORITIES.LOW,
-  },
+function Task(id, name, status, priority) {
+  this.id = id;
+  this.name = name;
+  this.status = status;
+  this.priority = priority;
+}
+
+export let tasks = [
+  new Task(1, 'create a post', STATUSES.IN_PROGRESS, PRIORITIES.LOW),
+  new Task(2, 'make a bed', STATUSES.DONE, PRIORITIES.HIGH),
+  new Task(3, 'write a post', STATUSES.TO_DO, PRIORITIES.LOW),
 ];
 
 function isValidStatus(status) {
@@ -72,12 +64,7 @@ export function generateId() {
 
 export function addTask(name, status = DEFAULT_STATUS, priority = DEFAULT_PRIORITY) {
   if (name && isValidStatus(status) && isValidPriority(priority)) {
-    const task = {
-      id: generateId(),
-      name,
-      status,
-      priority,
-    };
+    const task = new Task(generateId, name, status, priority);
 
     tasks.push(task);
 

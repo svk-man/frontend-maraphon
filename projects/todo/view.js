@@ -120,9 +120,8 @@ function addListItemTask(event) {
   const form = event.target;
   const taskName = form.children[0].value;
   if (taskName.trim()) {
-		console.log(form.dataset['priority'].toUpperCase());
     const taskPriority = form.dataset['priority'].toUpperCase() === PRIORITIES.LOW ? PRIORITIES.LOW : PRIORITIES.HIGH;
-		console.log(taskPriority);
+
     const taskId = addTask(taskName, STATUSES.TO_DO, taskPriority);
     const isTaskAdded = taskId !== -1;
     if (isTaskAdded) {
