@@ -14,7 +14,7 @@ console.log( a == b ); // true
 function Calculator() {
 	this.read = function () {
 		const a = +prompt("Введите число a", 0);
-		const b = +prompt("Введите число a", 0);
+		const b = +prompt("Введите число b", 0);
 
 		this.a = a;
 		this.b = b;
@@ -39,6 +39,12 @@ alert( "Mul=" + calculator.mul() );
 // Создайте new Accumulator
 function Accumulator(startingValue) {
 	this.value = startingValue;
+
+	this.read = function () {
+		const value = +prompt("Введите число", 0);
+
+		this.value += value;
+	}
 }
 
 let accumulator = new Accumulator(1); // начальное значение 1
